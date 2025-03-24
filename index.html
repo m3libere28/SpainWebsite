@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Valencia Journey</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FullCalendar -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <!-- Leaflet.js -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root {
+            --primary: #FF6F61;    /* Coral */
+            --secondary: #0077B6;  /* Deep Blue */
+            --accent: #FFD166;     /* Golden Yellow */
+            --neutral: #F7F7F7;    /* Off-White */
+            --dark: #2D2D2D;       /* Charcoal */
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: var(--neutral);
+            margin: 0;
+            padding: 0;
+            color: var(--dark);
+        }
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+        #loader.fade-out { opacity: 0; pointer-events: none; }
+        .loader-plane { font-size: 5rem; color: var(--accent); animation: flyAcross 2s infinite ease-in-out; }
+        @keyframes flyAcross { 
+            0% { transform: translateX(-100vw) rotate(-10deg); } 
+            50% { transform: translateX(0) rotate(10deg); } 
+            100% { transform: translateX(100vw) rotate(-10deg); } 
+        }
+        #countdown-bar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            z-index: 20;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .countdown-container { display: flex; justify-content: center; gap: 30px; font-size: 1.5rem; }
+        .countdown-unit { background: rgba(255, 255, 255, 0.2); padding: 15px; border-radius: 50%; width: 100px; height: 100px; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: transform 0.3s, background 0.3s; animation: bounce 2s infinite; }
+        .countdown-unit:hover { transform: scale(1.1); background: var(--accent); }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        #hero {
+            background: url('https://images.unsplash.com/photo-1562778351-4d0e7bb2d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            margin-top: 80px; /* Offset for countdown bar */
+        }
+        #hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+        #hero h1, #hero p, #hero button { position: relative; z-index: 2; }
+        nav {
+            position: sticky;
+            top: 80px; /* Below countdown bar */
+            background: rgba(0, 119, 182, 0.95);
+
+            padding: 1rem;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin: 1rem auto;
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            transition: background 0.3s;
+        }
+        .btn:hover { background: var(--secondary); }
+        .weather-visual { position: relative; width: 100%; height: 250px; background: var(--secondary); border-radius: 10px; overflow: hidden; }
+        .weather-sun { position: absolute; top: 20px; left: 20px; font-size: 3rem; color: var(--accent); animation: pulse 2s infinite; }
+        .weather-cloud { position: absolute; top: 50px; left: 100px; font-size: 2rem; color: white; animation: drift 5s infinite linear; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        @keyframes drift { 0% { transform: translateX(0); } 100% { transform: translateX(100px); } }
+        .timeline-container { overflow-x: auto; padding: 20px 0; }
+        .timeline { display: flex; align-items: center; position: relative; height: 200px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 10px; padding: 20px; }
+        .timeline-item { position: relative; flex: 1; text-align: center; color: white; transition: transform 0.3s; }
+        .timeline-item:hover { transform: scale(1.1); }
+        .timeline-dot { width: 20px; height: 20px; background: var(--accent); border-radius: 50%; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); animation: glow 1.5s infinite alternate; }
+        .timeline-item p { margin-top: 40px; font-size: 1rem; }
+        @keyframes glow { 0% { box-shadow: 0 0 5px var(--accent); } 100% { box-shadow: 0 0 15px var(--accent); } }
+        .todo-item { display: flex; align-items: center; padding: 10px; margin: 5px 0; background: white; border-radius: 5px; cursor: pointer; transition: transform 0.3s; }
+        .todo-item.completed { background: #d4edda; text-decoration: line-through; }
+        .todo-item:hover { transform: scale(1.02); }
+        .todo-check { margin-right: 10px; }
+        #map { height: 500px; border-radius: 10px; }
+        .fade-in { animation: fadeIn 1s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loader">
+        <i class="fas fa-plane loader-plane"></i>
+    </div>
+
+    <!-- Countdown Timer (Top Bar) -->
+    <div id="countdown-bar">
+        <div class="countdown-container" id="countdown-timer">
+            <div class="countdown-unit" onclick="alert('Days until Valencia!')"><span id="days">0</span><br>Days</div>
+            <div class="countdown-unit" onclick="alert('Hours until Valencia!')"><span id="hours">0</span><br>Hours</div>
+            <div class="countdown-unit" onclick="alert('Minutes until Valencia!')"><span id="minutes">0</span><br>Minutes</div>
+        </div>
+    </div>
+
+    <!-- Hero Splash -->
+    <section id="hero">
+        <h1 class="text-5xl md:text-6xl font-bold font-[Montserrat] fade-in">Our Valencia Journey</h1>
+        <p class="text-xl md:text-2xl mt-4 fade-in">A Family’s Move to Spain’s Mediterranean Gem</p>
+        <button class="btn mt-6 fade-in" onclick="document.getElementById('home').scrollIntoView({ behavior: 'smooth' })">Begin the Adventure</button>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="flex flex-wrap justify-center gap-4 text-white">
+        <a href="#home" class="hover:text-[var(--accent)]"><i class="fas fa-home mr-1"></i>Home</a>
+        <a href="#rentals" class="hover:text-[var(--accent)]"><i class="fas fa-house-user mr-1"></i>Rentals</a>
+        <a href="#timeline" class="hover:text-[var(--accent)]"><i class="fas fa-stream mr-1"></i>Timeline</a>
+        <a href="#weather" class="hover:text-[var(--accent)]"><i class="fas fa-cloud-sun mr-1"></i>Weather</a>
+        <a href="#schools" class="hover:text-[var(--accent)]"><i class="fas fa-school mr-1"></i>Schools</a>
+        <a href="#budget" class="hover:text-[var(--accent)]"><i class="fas fa-wallet mr-1"></i>Budget</a>
+        <a href="#todo" class="hover:text-[var(--accent)]"><i class="fas fa-tasks mr-1"></i>To-Do</a>
+        <a href="#calendar" class="hover:text-[var(--accent)]"><i class="fas fa-calendar mr-1"></i>Calendar</a>
+        <a href="#map" class="hover:text-[var(--accent)]"><i class="fas fa-map mr-1"></i>Map</a>
+    </nav>
+
+    <!-- Homepage -->
+    <section id="home" class="max-w-6xl mx-auto py-8">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--secondary)]"><i class="fas fa-sun mr-2"></i>Welcome!</h2>
+            <p>Join us as we prepare to move to Valencia in July 2026!</p>
+        </div>
+    </section>
+
+    <!-- Rentals (20 Beach Apartments) -->
+    <section id="rentals" class="max-w-6xl mx-auto py-8">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--secondary)]"><i class="fas fa-house-user mr-2"></i>Beach Apartments</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Malvarrosa" class="rounded-t-lg"><p class="p-2">3-Bed, Malvarrosa, $1,500/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Cabanyal" class="rounded-t-lg"><p class="p-2">2-Bed, Cabanyal, $1,300/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Patacona" class="rounded-t-lg"><p class="p-2">3-Bed, Patacona, $1,700/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Malvarrosa" class="rounded-t-lg"><p class="p-2">2-Bed, Malvarrosa, $1,400/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Cabanyal" class="rounded-t-lg"><p class="p-2">3-Bed, Cabanyal, $1,600/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Patacona" class="rounded-t-lg"><p class="p-2">2-Bed, Patacona, $1,450/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Malvarrosa" class="rounded-t-lg"><p class="p-2">3-Bed, Malvarrosa, $1,650/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Cabanyal" class="rounded-t-lg"><p class="p-2">2-Bed, Cabanyal, $1,350/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Patacona" class="rounded-t-lg"><p class="p-2">3-Bed, Patacona, $1,800/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Malvarrosa" class="rounded-t-lg"><p class="p-2">2-Bed, Malvarrosa, $1,250/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Cabanyal" class="rounded-t-lg"><p class="p-2">3-Bed, Cabanyal, $1,700/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Patacona" class="rounded-t-lg"><p class="p-2">2-Bed, Patacona, $1,500/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Malvarrosa" class="rounded-t-lg"><p class="p-2">3-Bed, Malvarrosa, $1,600/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Cabanyal" class="rounded-t-lg"><p class="p-2">2-Bed, Cabanyal, $1,400/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Patacona" class="rounded-t-lg"><p class="p-2">3-Bed, Patacona, $1,750/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Malvarrosa" class="rounded-t-lg"><p class="p-2">2-Bed, Malvarrosa, $1,300/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Cabanyal" class="rounded-t-lg"><p class="p-2">3-Bed, Cabanyal, $1,650/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Patacona" class="rounded-t-lg"><p class="p-2">2-Bed, Patacona, $1,450/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Malvarrosa" class="rounded-t-lg"><p class="p-2">3-Bed, Malvarrosa, $1,700/month</p></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Cabanyal" class="rounded-t-lg"><p class="p-2">2-Bed, Cabanyal, $1,350/month</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Horizontal Interactive Timeline -->
+    <section id="timeline" class="max-w-6xl mx-auto py-8">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--secondary)]"><i class="fas fa-stream mr-2"></i>Preparation Timeline</h2>
+            <div class="timeline-container">
+                <div class="timeline">
+                    <div class="timeline-item"><div class="timeline-dot"></div><p>July 2025<br>Research NLV</p></div>
+                    <div class="timeline-item"><div class="timeline-dot"></div><p>Sept 2025<br>Income Proof</p></div>
+                    <div class="timeline-item"><div class="timeline-dot"></div><p>Oct 2025<br>Health Insurance</p></div>
+                    <div class="timeline-item"><div class="timeline-dot"></div><p>Nov 2025<br>BBVA Account</p></div>
+                    <div class="timeline-item"><div class="timeline-dot"></div><p>Dec 2025<br>Consulate Appt</p></div>
+                    <div class="timeline-item"><div class="timeline-dot"></div><p>Jan 2026<br>Apply NLV</p></div>
+                    <div class="timeline-item"><div class="timeline-dot"></div><p>Mar 2026<br>Shipping</p></div>
+                    <div class="timeline-item"><div class="timeline-dot"></div><p>Apr 2026<br>Spanish Lessons</p></div>
+                    <div class="timeline-item"><div class="timeline-dot"></div><p>May 2026<br>Notify Landlord</p></div>
+                    <div class="timeline-item"><div class="timeline-dot"></div><p>June 2026<br>Cancel Utilities</p></div>
+                    <div class="timeline-item"><div class="timeline-dot"></div><p>July 1, 2026<br>Move Day</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Weather Visualization -->
+    <section id="weather" class="max-w-6xl mx-auto py-8">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--secondary)]"><i class="fas fa-cloud-sun mr-2"></i>Valencia Weather</h2>
+            <div class="weather-visual">
+                <i class="fas fa-sun weather-sun"></i>
+                <i class="fas fa-cloud weather-cloud"></i>
+                <div id="weather-info" class="text-white p-4 absolute bottom-0 left-0"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schools (6 Options) -->
+    <section id="schools" class="max-w-6xl mx-auto py-8">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--secondary)]"><i class="fas fa-school mr-2"></i>Expat Schools</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="British School" class="rounded-t-lg">
+                    <p><strong>British School of Valencia</strong> (<a href="https://bsvalencia.com" class="text-[var(--primary)]">Website</a>)</p>
+                    <p>Review: "Top-tier British education!" - Expat Parent</p>
+                    <p>Cost: ~$1,000/month</p>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Caxton" class="rounded-t-lg">
+                    <p><strong>Caxton College</strong> (<a href="https://caxtoncollege.com" class="text-[var(--primary)]">Website</a>)</p>
+                    <p>Review: "Great bilingual program." - Expat Family</p>
+                    <p>Cost: ~$600/month</p>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="American School" class="rounded-t-lg">
+                    <p><strong>American School of Valencia</strong> (<a href="https://asvalencia.org" class="text-[var(--primary)]">Website</a>)</p>
+                    <p>Review: "US curriculum, excellent facilities." - Expat</p>
+                    <p>Cost: ~$1,200/month</p>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Lycée" class="rounded-t-lg">
+                    <p><strong>Lycée Français de Valence</strong> (<a href="https://lfval.net" class="text-[var(--primary)]">Website</a>)</p>
+                    <p>Review: "Perfect for French families." - Parent</p>
+                    <p>Cost: ~$700/month</p>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="Cambridge" class="rounded-t-lg">
+                    <p><strong>Cambridge House Community College</strong> (<a href="https://cambridgehouse.es" class="text-[var(--primary)]">Website</a>)</p>
+                    <p>Review: "Strong academics!" - Expat Review</p>
+                    <p>Cost: ~$800/month</p>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80" alt="El Plantío" class="rounded-t-lg">
+                    <p><strong>El Plantío International School</strong> (<a href="https://elplantiointernationalschool.com" class="text-[var(--primary)]">Website</a>)</p>
+                    <p>Review: "Small classes, great attention." - Parent</p>
+                    <p>Cost: ~$900/month</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Budget Tracker with Dynamic Addition -->
+    <section id="budget" class="max-w-6xl mx-auto py-8">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--secondary)]"><i class="fas fa-wallet mr-2"></i>Budget Tracker</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div id="budget-inputs">
+                    <label class="block mt-2">Rent: <input type="number" data-label="Rent" value="1500" class="border p-2 rounded w-full budget-item"></label>
+                    <label class="block mt-2">Groceries: <input type="number" data-label="Groceries" value="375" class="border p-2 rounded w-full budget-item"></label>
+                    <label class="block mt-2">Utilities: <input type="number" data-label="Utilities" value="175" class="border p-2 rounded w-full budget-item"></label>
+                    <label class="block mt-2">Transport: <input type="number" data-label="Transport" value="100" class="border p-2 rounded w-full budget-item"></label>
+                    <label class="block mt-2">School: <input type="number" data-label="School" value="0" class="border p-2 rounded w-full budget-item"></label>
+                    <label class="block mt-2">Insurance: <input type="number" data-label="Insurance" value="200" class="border p-2 rounded w-full budget-item"></label>
+                    <label class="block mt-2">Entertainment: <input type="number" data-label="Entertainment" value="150" class="border p-2 rounded w-full budget-item"></label>
+                    <label class="block mt-2">Add Income: <input type="number" id="addIncome" placeholder="Extra Income" class="border p-2 rounded w-full"></label>
+                    <div class="mt-4">
+                        <input type="text" id="newItemLabel" placeholder="New Item Name" class="border p-2 rounded w-2/3">
+                        <button class="btn ml-2" onclick="addBudgetItem()">Add Item</button>
+                    </div>
+                    <button class="btn mt-4" onclick="updateBudget()">Update</button>
+                </div>
+                <div>
+                    <canvas id="budgetChart" class="max-w-full"></canvas>
+                    <p class="mt-4 text-center font-semibold" id="savings">Savings: $3,500</p>
+                    <p class="mt-2 text-center" id="total">Total: $2,500 / $6,000</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Animated To-Do List -->
+    <section id="todo" class="max-w-6xl mx-auto py-8">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--secondary)]"><i class="fas fa-tasks mr-2"></i>Moving To-Do List</h2>
+            <div id="todo-list">
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Research NLV Requirements (July 2025)</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Gather Income Proof ($3,000/month) (Sept 2025)</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Secure Private Health Insurance (Oct 2025)</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Open BBVA Bank Account (Nov 2025)</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Book Consulate Appointment for NLV (Dec 2025)</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Submit NLV Application (Jan 2026)</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Arrange Shipping or Furniture Purchase (Mar 2026)</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Research Spanish Lessons (Apr 2026)</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Notify Current Landlord of Move (May 2026)</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Cancel Current Utilities (June 2026)</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Pack Belongings (June 2026)</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Book Flights to Valencia (June 2026)</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Arrive in Valencia & Register for Padrón (July 2026)</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Apply for NIE (July 2026)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calendar -->
+    <section id="calendar" class="max-w-6xl mx-auto py-8">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--secondary)]"><i class="fas fa-calendar mr-2"></i>Planning Calendar</h2>
+            <div id="calendar-container"></div>
+        </div>
+    </section>
+
+    <!-- Interactive Map -->
+    <section id="map" class="max-w-6xl mx-auto py-8">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--secondary)]"><i class="fas fa-map mr-2"></i>Valencia Map</h2>
+            <div id="map"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[var(--secondary)] text-white text-center p-4">
+        <p>© 2025 Our Valencia Journey</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Loader (2 seconds)
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.classList.add('fade-out');
+                setTimeout(() => loader.style.display = 'none', 500);
+            }, 2000); // 2 seconds
+        });
+
+        // Interactive Countdown Timer
+        const moveDate = new Date("July 1, 2026").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = moveDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("days").innerHTML = days;
+            document.getElementById("hours").innerHTML = hours;
+            document.getElementById("minutes").innerHTML = minutes;
+        }, 1000);
+
+        // Enhanced Weather Visualization with Metrics
+        fetch('https://api.openweathermap.org/data/2.5/weather?q=Valencia,ES&appid=ee6c435a2eaea8e6f4e7ebfa1f2e2f3e&units=metric')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('weather-info').innerHTML = `
+                    <p>Weather: ${data.weather[0].description}</p>
+                    <p>Temp: ${data.main.temp}°C</p>
+                    <p>Feels Like: ${data.main.feels_like}°C</p>
+                    <p>Humidity: ${data.main.humidity}%</p>
+                    <p>Wind: ${data.wind.speed} m/s</p>
+                `;
+            })
+            .catch(error => console.error('Weather fetch error:', error));
+
+        // Budget Tracker with Dynamic Addition
+        const ctx = document.getElementById('budgetChart').getContext('2d');
+        let budgetChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Rent', 'Groceries', 'Utilities', 'Transport', 'School', 'Insurance', 'Entertainment', 'Savings'],
+                datasets: [{
+                    data: [1500, 375, 175, 100, 0, 200, 150, 3500],
+                    backgroundColor: ['#FF6F61', '#0077B6', '#FFD166', '#06D6A0', '#EF476F', '#118AB2', '#073B4C', '#D3D3D3']
+                }]
+            }
+        });
+
+        function addBudgetItem() {
+            const label = document.getElementById('newItemLabel').value;
+            if (label) {
+                const inputsDiv = document.getElementById('budget-inputs');
+                const newInput = document.createElement('label');
+                newInput.className = 'block mt-2';
+                newInput.innerHTML = `${label}: <input type="number" data-label="${label}" value="0" class="border p-2 rounded w-full budget-item">`;
+                inputsDiv.insertBefore(newInput, inputsDiv.lastElementChild.previousElementSibling);
+                document.getElementById('newItemLabel').value = '';
+                updateBudget();
+            }
+        }
+
+        function updateBudget() {
+            const items = Array.from(document.getElementsByClassName('budget-item')).map(item => ({
+                label: item.getAttribute('data-label'),
+                value: parseInt(item.value) || 0
+            }));
+            const addIncome = parseInt(document.getElementById('addIncome').value) || 0;
+            const totalExpenses = items.reduce((a, b) => a + b.value, 0);
+            const totalBudget = 6000 + addIncome;
+            const savings = totalBudget - totalExpenses;
+            document.getElementById('savings').innerHTML = `Savings: $${savings}`;
+            document.getElementById('total').innerHTML = `Total: $${totalExpenses} / $${totalBudget}`;
+            budgetChart.data.labels = [...items.map(item => item.label), 'Savings'];
+            budgetChart.data.datasets[0].data = [...items.map(item => item.value), savings];
+            budgetChart.update();
+        }
+
+        // Animated To-Do List
+        function toggleTodo(item) {
+            item.classList.toggle('completed');
+        }
+
+        // Calendar with To-Do Events
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar-container');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                editable: true,
+                events: [
+                    { title: 'Research NLV Requirements', start: '2025-07-01' },
+                    { title: 'Gather Income Proof', start: '2025-09-01' },
+                    { title: 'Secure Health Insurance', start: '2025-10-01' },
+                    { title: 'Open BBVA Account', start: '2025-11-01' },
+                    { title: 'Book Consulate Appointment', start: '2025-12-01' },
+                    { title: 'Submit NLV Application', start: '2026-01-01' },
+                    { title: 'Arrange Shipping/Furniture', start: '2026-03-01' },
+                    { title: 'Research Spanish Lessons', start: '2026-04-01' },
+                    { title: 'Notify Landlord', start: '2026-05-01' },
+                    { title: 'Cancel Utilities', start: '2026-06-01' },
+                    { title: 'Pack Belongings', start: '2026-06-15' },
+                    { title: 'Book Flights', start: '2026-06-20' },
+                    { title: 'Move to Valencia', start: '2026-07-01' },
+                    { title: 'Register for Padrón', start: '2026-07-05' },
+                    { title: 'Apply for NIE', start: '2026-07-10' }
+                ],
+                eventClick: function(info) {
+                    alert('Task: ' + info.event.title);
+                }
+            });
+            calendar.render();
+        });
+
+        // Map
+        const map = L.map('map').setView([39.4699, -0.3763], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }).addTo(map);
+        L.marker([39.475, -0.35], { icon: L.divIcon({ html: '<i class="fas fa-home text-[var(--primary)]"></i>', className: 'text-xl' }) }).addTo(map).bindPopup('Malvarrosa, $1,500');
+        L.marker([39.47, -0.34], { icon: L.divIcon({ html: '<i class="fas fa-home text-[var(--primary)]"></i>', className: 'text-xl' }) }).addTo(map).bindPopup('Cabanyal, $1,300');
+        L.marker([39.48, -0.33], { icon: L.divIcon({ html: '<i class="fas fa-home text-[var(--primary)]"></i>', className: 'text-xl' }) }).addTo(map).bindPopup('Patacona, $1,700');
+        L.marker([39.466, -0.375], { icon: L.divIcon({ html: '<i class="fas fa-school text-[var(--secondary)]"></i>', className: 'text-xl' }) }).addTo(map).bindPopup('British School');
+        L.marker([39.47, -0.38], { icon: L.divIcon({ html: '<i class="fas fa-school text-[var(--secondary)]"></i>', className: 'text-xl' }) }).addTo(map).bindPopup('Caxton College');
+        L.marker([39.475, -0.375], { icon: L.divIcon({ html: '<i class="fas fa-star text-[var(--accent)]"></i>', className: 'text-xl' }) }).addTo(map).bindPopup('City of Arts and Sciences');
+    </script>
+</body>
+</html>
