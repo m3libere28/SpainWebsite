@@ -1,0 +1,4348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Valencia Journey</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#4A6FA5',
+                            dark: '#3A5A8F'
+                        },
+                        secondary: {
+                            light: '#F18F01',
+                            dark: '#E17F00'
+                        },
+                        accent: {
+                            light: '#48A9A6',
+                            dark: '#389996'
+                        },
+                        neutral: {
+                            light: '#F5F5F5',
+                            dark: '#1A1A1A'
+                        },
+                        dark: {
+                            light: '#2B2D42',
+                            dark: '#1B1D32'
+                        },
+                        light: {
+                            light: 'orange',
+                            dark: '#E8E9EA'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Splide.js for carousels -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FullCalendar -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <!-- Leaflet.js -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- New Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> <!-- Markdown -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/css/lightbox.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/js/lightbox.min.js"></script> <!-- Lightbox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!-- PDF Export -->
+    <style>
+     :root {
+  --primary-light: #4A6FA5;
+  --primary-dark: #3A5A8F;
+  --secondary-light: #F18F01;
+  --secondary-dark: #E17F00;
+  --accent-light: #48A9A6;
+  --accent-dark: #389996;
+  --neutral-light: #orange;
+  --neutral-dark: #1A1A1A;
+  --dark-light: #2B2D42;
+  --dark-dark: #1B1D32;
+  --light-light: #F8F9FA;
+  --light-dark: #E8E9EA;
+}
+  /* Add these styles to your existing style section */
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  @keyframes fly-around {
+    0% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 1; }
+    25% { transform: translateX(50px) translateY(-30px) rotate(45deg); }
+    50% { transform: translateX(0) translateY(-60px) rotate(90deg); }
+    75% { transform: translateX(-50px) translateY(-30px) rotate(135deg); }
+    100% { transform: translateX(0) translateY(0) rotate(180deg); opacity: 1; }
+  }
+  
+  #sun-circle {
+    animation: pulse 2s infinite alternate;
+  }
+  
+  @keyframes pulse {
+    from { r: 40; }
+    to { r: 45; }
+  }
+  
+  #animated-logo:hover #sun-circle {
+    animation: pulse-fast 0.5s infinite alternate;
+  }
+  
+  @keyframes pulse-fast {
+    from { r: 40; fill: #F18F01; }
+    to { r: 45; fill: #E17F00; }
+  }
+  
+  #animated-logo:hover #plane {
+    animation: fly-around-fast 4s linear infinite;
+  }
+  
+  @keyframes fly-around-fast {
+    0% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 1; }
+    25% { transform: translateX(50px) translateY(-30px) rotate(45deg); }
+    50% { transform: translateX(0) translateY(-60px) rotate(90deg); }
+    75% { transform: translateX(-50px) translateY(-30px) rotate(135deg); }
+    100% { transform: translateX(0) translateY(0) rotate(180deg); opacity: 1; }
+  }
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: var(--neutral-light);
+  margin: 0;
+  padding: 0;
+  color: var(--dark-light);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark {
+  --neutral-light: #1A1A1A;
+  --dark-light: #F8F9FA;
+  --light-light: #2B2D42;
+  --primary-light: #3A5A8F;
+  --secondary-light: #E17F00;
+  --accent-light: #389996;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Loading Screen */
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 1s ease;
+}
+
+.loader-text {
+  color: white;
+  font-size: 2.5rem;
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  animation: pulse 2s infinite;
+}
+
+.loader-plane { 
+  font-size: 5rem; 
+  color: white; 
+  position: relative;
+  animation: flyAcross 4s infinite ease-in-out;
+}
+
+.loader-trail {
+  position: absolute;
+  width: 100px;
+  height: 10px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 50%;
+  filter: blur(5px);
+  animation: trailFade 4s infinite ease-in-out;
+}
+
+@keyframes flyAcross { 
+  0% { transform: translateX(-100vw) rotate(-10deg); } 
+  50% { transform: translateX(0) rotate(10deg); } 
+  100% { transform: translateX(100vw) rotate(-10deg); } 
+}
+
+@keyframes trailFade {
+  0%, 100% { opacity: 0; width: 0; }
+  50% { opacity: 0.5; width: 100px; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+/* Countdown Timer */
+#countdown-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(90deg, var(--primary-light), var(--accent-light));
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  z-index: 20;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.countdown-container { 
+  display: flex; 
+  justify-content: center; 
+  gap: 10px;
+  font-size: 1rem;
+  flex-wrap: wrap;
+}
+
+.countdown-unit { 
+  background: rgba(255, 255, 255, 0.2); 
+  padding: 8px; 
+  border-radius: 8px; 
+  min-width: 60px; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  transition: all 0.3s;
+}
+
+.countdown-unit span:first-child {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.countdown-unit:hover { 
+  transform: translateY(-3px); 
+  background: var(--secondary-light); 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Hero Section */
+#hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  position: relative;
+  margin-top: 80px;
+  overflow: hidden;
+}
+
+#hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+#hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+#hero h1, #hero p, #hero button { 
+  position: relative; 
+  z-index: 2; 
+}
+
+#hero h1 {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  font-size: 2.5rem;
+}
+
+/* Navigation */
+nav {
+  position: sticky;
+  top: 80px;
+  background: rgba(74, 111, 165, 0.95);
+  padding: 0.5rem;
+  z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  overflow-x: auto;
+  white-space: nowrap;
+  display: flex;
+
+}
+
+nav a {
+  padding: 0.5rem 1rem;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s;
+  display: inline-block;
+}
+
+nav a:hover {
+  color: var(--secondary-light);
+  transform: translateY(-2px);
+}
+
+/* Cards */
+.card {
+  background: var(--light-light);
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  margin: 1rem auto;
+  transition: all 0.3s;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.dark .card {
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card:hover { 
+  transform: translateY(-5px); 
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Buttons */
+.btn {
+  background: var(--secondary-light);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  transition: all 0.3s;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.btn:hover { 
+  background: var(--primary-light); 
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Timeline Specific Styles */
+.timeline-container {
+    position: relative;
+}
+
+.timeline-line {
+    z-index: 1;
+}
+
+.timeline-phase {
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-phase-header {
+    transition: all 0.3s ease;
+}
+
+.timeline-phase-header:hover {
+    transform: translateX(5px);
+}
+
+.timeline-phase-details {
+    transition: all 0.3s ease;
+}
+
+.timeline-task {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.timeline-task:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-task[data-completed="true"] {
+    border-left: 3px solid var(--secondary);
+    opacity: 0.8;
+}
+
+.timeline-milestone {
+    position: relative;
+}
+
+.timeline-milestone::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: -10px;
+    bottom: -10px;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, var(--primary), transparent);
+    z-index: 1;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.btn-white {
+    background: white;
+    color: var(--primary);
+}
+
+.btn-white:hover {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: var(--light-light);
+    border-radius: 15px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2rem;
+    position: relative;
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+.dark .modal-content {
+    background: var(--dark-light);
+    color: orangered;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--dark-light);
+    transition: color 0.3s;
+}
+
+.dark .close-modal {
+    color: white;
+}
+
+.close-modal:hover {
+    color: var(--secondary-light);
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow { 
+  0% { box-shadow: 0 0 5px var(--secondary-light); } 
+  100% { box-shadow: 0 0 15px var(--secondary-light); } 
+}
+
+/* To-Do List */
+.todo-item { 
+  display: flex; 
+  align-items: center; 
+  padding: 12px 15px; 
+  margin: 8px 0; 
+  background: var(--light-light);
+  border-radius: 8px; 
+  cursor: pointer; 
+  transition: all 0.3s;
+  border-left: 4px solid var(--accent-light);
+}
+
+.todo-item.completed { 
+  background: #e8f4f4; 
+  text-decoration: line-through;
+  color: #888;
+  border-left-color: var(--secondary-light);
+}
+
+.dark .todo-item.completed {
+  background: #2a3a3a;
+}
+
+.todo-item:hover { 
+  transform: translateX(5px); 
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.todo-check { 
+  margin-right: 12px; 
+  color: var(--accent-light);
+}
+
+.todo-item.completed .todo-check {
+  color: var(--secondary-light);
+}
+
+/* Map */
+#map { 
+  height: 400px; 
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Animations */
+.fade-in { 
+  animation: fadeIn 1s ease-in; 
+}
+
+@keyframes fadeIn { 
+  from { opacity: 0; transform: translateY(20px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+
+/* Footer */
+footer {
+  background: linear-gradient(90deg, var(--primary-light), var(--dark-light));
+  color: white;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: var(--light-light);
+  border-radius: 15px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2rem;
+  position: relative;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+.dark .modal-content {
+  background: var(--dark-light);
+  color: white;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--dark-light);
+  transition: color 0.3s;
+}
+
+.dark .close-modal {
+  color: white;
+}
+
+.close-modal:hover {
+  color: var(--secondary-light);
+}
+
+/* Currency Converter - Fixed Version */
+#converter .card {
+  padding: 2rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+  color: white;
+}
+
+.currency-card {
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 1.5rem;
+  min-width: 220px;
+  max-width: 300px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: all 0.3s;
+}
+
+.currency-card:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.currency-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.currency-flag {
+  font-size: 2.5rem;
+}
+
+.currency-select {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  font-weight: 600;
+  padding: 8px 30px 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.3);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}
+
+.currency-select option {
+  color: var(--dark-light);
+  background: var(--light-light);
+}
+
+.currency-input {
+  width: 100%;
+  background: transparent;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  border: none;
+  border-bottom: 2px solid rgba(255,255,255,0.3);
+  padding: 8px 0;
+  margin-bottom: 4px;
+}
+
+.currency-input:focus {
+  outline: none;
+  border-bottom-color: white;
+}
+
+.swap-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.swap-btn:hover {
+  background: rgba(255,255,255,0.2);
+  transform: rotate(180deg);
+}
+
+#exchange-rate {
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.1);
+  padding: 8px 16px;
+  border-radius: 50px;
+  display: inline-block;
+}
+
+.passport-stamp {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid var(--secondary-light);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.passport-stamp::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px dashed rgba(0,0,0,0.2);
+}
+
+.stamp-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--dark-light);
+}
+
+.stamp-currency {
+  font-size: 0.9rem;
+  color: var(--primary-light);
+  font-weight: 600;
+}
+
+.animated-plane {
+  font-size: 2rem;
+  animation: bounce 2s infinite;
+}
+
+/* Historical Timeline */
+.timeline-container {
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.timeline-scroll {
+  min-width: max-content;
+}
+
+.timeline {
+  display: flex;
+  gap: 1rem;
+}
+
+.timeline-item {
+  position: relative;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  width: 80px;
+  flex-shrink: 0;
+  height: 80px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.timeline-item {
+  background: linear-gradient(to top, var(--primary-light) 0%, var(--primary-light) var(--rate-percentage, 50%), transparent var(--rate-percentage, 50%), transparent 100%);
+}
+
+.timeline-item::before {
+  content: attr(data-date);
+  position: absolute;
+  top: -25px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  color: white;
+  opacity: 0.8;
+}
+
+.timeline-item::after {
+  content: attr(data-rate);
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 0.9rem;
+  font-family: monospace;
+  color: white;
+}
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+  #hero h1 {
+    font-size: 3.5rem;
+  }
+  
+  .countdown-container {
+    gap: 20px;
+    font-size: 1.2rem;
+  }
+  
+  .countdown-unit {
+    min-width: 80px;
+    padding: 12px;
+  }
+  
+  .countdown-unit span:first-child {
+    font-size: 1.8rem;
+  }
+  
+  /* Currency converter layout */
+  #converter .flex-col {
+    flex-direction: row !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  nav {
+    display: none;
+    position: fixed;
+    top: 140px;
+    left: 0;
+    width: 100%;
+    background: rgba(74, 111, 165, 0.98);
+    padding: 1rem;
+    flex-direction: column;
+    align-items: center;
+    z-index: 20;
+  }
+  
+  nav.show {
+    display: flex;
+  }
+  
+  nav a {
+    padding: 0.75rem;
+    width: 100%;
+    text-align: center;
+  }
+  
+  #hero h1 {
+    font-size: 2rem;
+    padding: 0 1rem;
+  }
+  
+  .countdown-unit {
+    min-width: 70px;
+    padding: 8px;
+  }
+  
+  .countdown-unit span:first-child {
+    font-size: 1.5rem;
+  }
+  
+  #map {
+    height: 300px;
+  }
+  
+  /* Currency converter layout */
+  #converter .flex-col {
+    flex-direction: column !important;
+  }
+  
+  .currency-card {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+
+.weather-card {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+    color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.weather-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
+    z-index: 0;
+}
+
+.weather-card > * {
+    position: relative;
+    z-index: 1;
+}
+#budget-warnings div {
+  animation: pulseWarning 1.5s infinite;
+}
+
+@keyframes pulseWarning {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.resource-card {
+  transition: all 0.2s;
+  border-left: 4px solid var(--accent-light);
+}
+
+.resource-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  border-left-color: var(--secondary-light);
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* School Carousel */
+#schools-carousel .splide__slide {
+  transition: transform 0.3s;
+}
+
+#schools-carousel .splide__slide:hover {
+  transform: translateY(-5px);
+}
+
+#schools-carousel .card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#schools-carousel .card img {
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+#schools-carousel .card > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Bucket List */
+.bucket-item[data-completed="true"] {
+  opacity: 0.8;
+  border-left: 4px solid var(--secondary-light);
+}
+
+.bucket-item[data-completed="true"] img {
+  filter: grayscale(50%);
+}
+
+/* FullCalendar Overrides */
+.fc-event-appointment {
+  background-color: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+}
+
+.fc-event-task {
+  background-color: #10b981 !important;
+  border-color: #10b981 !important;
+}
+
+.fc-event-payment {
+  background-color: #f59e0b !important;
+  border-color: #f59e0b !important;
+}
+
+.fc-event-deadline {
+  background-color: #ef4444 !important;
+  border-color: #ef4444 !important;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--secondary-light);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 30;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  transition: all 0.3s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* Splide Carousel Customizations */
+.splide__arrow {
+  background: var(--primary-light);
+  opacity: 1;
+}
+
+.splide__arrow:hover {
+  background: var(--secondary-light);
+}
+
+.splide__pagination__page.is-active {
+  background: var(--secondary-light);
+}
+
+.splide__pagination__page {
+  background: var(--primary-light);
+  opacity: 0.5;
+}
+
+/* Prose Content */
+.prose {
+  max-width: none;
+}
+
+.prose h1, .prose h2, .prose h3 {
+  color: var(--primary-light);
+}
+
+.prose a {
+  color: var(--secondary-light);
+}
+
+.journal-entry video, .journal-entry img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+/* Heatmap Legend */
+.leaflet-control-legend {
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+}
+
+/* Keyframes */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+    </style>
+</head>
+	<div id="animated-logo" style="position: fixed; top: 20px; left: 20px; z-index: 1000; cursor: pointer;">
+  <svg width="120" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Animated sun rays -->
+    <g id="sun-rays" style="transform-origin: 100px 100px; animation: rotate 20s linear infinite;">
+      <path d="M100,30 L100,10" stroke="#F18F01" stroke-width="4" stroke-linecap="round"/>
+      <path d="M170,100 L190,100" stroke="#F18F01" stroke-width="4" stroke-linecap="round"/>
+      <path d="M100,170 L100,190" stroke="#F18F01" stroke-width="4" stroke-linecap="round"/>
+      <path d="M30,100 L10,100" stroke="#F18F01" stroke-width="4" stroke-linecap="round"/>
+      <path d="M142.4,57.6 L157.6,42.4" stroke="#F18F01" stroke-width="4" stroke-linecap="round"/>
+      <path d="M142.4,142.4 L157.6,157.6" stroke="#F18F01" stroke-width="4" stroke-linecap="round"/>
+      <path d="M57.6,142.4 L42.4,157.6" stroke="#F18F01" stroke-width="4" stroke-linecap="round"/>
+      <path d="M57.6,57.6 L42.4,42.4" stroke="#F18F01" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    
+    <!-- Sun circle -->
+    <circle cx="100" cy="100" r="40" fill="#F18F01" id="sun-circle"/>
+    
+    <!-- Plane animation -->
+    <g id="plane" style="transform-origin: 100px 100px; animation: fly-around 8s linear infinite;">
+      <path d="M130,100 L150,100 L140,95 L150,90 L130,90 L120,95 Z" fill="#4A6FA5"/>
+      <path d="M140,100 L140,90 L135,95 Z" fill="#3A5A8F"/>
+      <circle cx="125" cy="95" r="3" fill="#2B2D42"/>
+    </g>
+    
+    <!-- Text elements -->
+    <text x="100" y="140" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="14" fill="#2B2D42" font-weight="bold">OUR</text>
+    <text x="100" y="160" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="14" fill="#2B2D42" font-weight="bold">VALENCIA</text>
+    <text x="100" y="180" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="14" fill="#2B2D42" font-weight="bold">JOURNEY</text>
+  </svg>
+</div>
+<body class="light">
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="loader-text">Our Family Adventure</div>
+        <i class="fas fa-plane loader-plane"></i>
+        <div class="loader-trail"></div>
+    </div>
+
+    <!-- Countdown Timer (Top Bar) -->
+    <div id="countdown-bar">
+        <div class="countdown-container" id="countdown-timer">
+            <div class="countdown-unit"><span id="days">0</span><span>Days</span></div>
+            <div class="countdown-unit"><span id="hours">0</span><span>Hours</span></div>
+            <div class="countdown-unit"><span id="minutes">0</span><span>Minutes</span></div>
+            <div class="countdown-unit"><span id="seconds">0</span><span>Seconds</span></div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i> Menu
+    </button>
+
+    <!-- Hero Video -->
+    <section id="hero">
+        <video id="hero-video" autoplay muted loop playsinline>
+            <source src="New Video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h1 class="text-4xl md:text-6xl font-bold fade-in">Our Valencia Journey</h1>
+        <p class="text-lg md:text-2xl mt-4 fade-in">A Family's Move to Spain's Mediterranean Gem</p>
+        <button class="btn mt-6 fade-in" onclick="document.getElementById('home').scrollIntoView({ behavior: 'smooth' })">Begin the Adventure</button>
+    </section>
+
+    <!-- Navigation -->
+    <nav id="mainNav">
+        <a href="#home" class="hover:text-[var(--accent)]"><i class="fas fa-home mr-1"></i>Home</a>
+        <a href="#rentals" class="hover:text-[var(--accent)]"><i class="fas fa-house-user mr-1"></i>Rentals</a>
+        <a href="#timeline" class="hover:text-[var(--accent)]"><i class="fas fa-stream mr-1"></i>Timeline</a>
+        <a href="#weather" class="hover:text-[var(--accent)]"><i class="fas fa-cloud-sun mr-1"></i>Weather</a>
+        <a href="#schools" class="hover:text-[var(--accent)]"><i class="fas fa-school mr-1"></i>Schools</a>
+        <a href="#budget" class="hover:text-[var(--accent)]"><i class="fas fa-wallet mr-1"></i>Budget</a>
+        <a href="#todo" class="hover:text-[var(--accent)]"><i class="fas fa-tasks mr-1"></i>To-Do</a>
+        <a href="#calendar" class="hover:text-[var(--accent)]"><i class="fas fa-calendar mr-1"></i>Calendar</a>
+        <a href="#map" class="hover:text-[var(--accent)]"><i class="fas fa-map mr-1"></i>Map</a>
+        <a href="#journal" class="hover:text-[var(--accent)]"><i class="fas fa-book-open mr-1"></i>Journal</a>
+        <a href="#family-map" class="hover:text-[var(--accent)]"><i class="fas fa-map-pin mr-1"></i>Family Map</a>
+        <a href="#bucket-list" class="hover:text-[var(--accent)]"><i class="fas fa-list-check mr-1"></i>Bucket List</a>
+        <a href="#vlogs" class="hover:text-[var(--accent)]"><i class="fas fa-video mr-1"></i>Vlogs</a>
+        <a href="#then-now" class="hover:text-[var(--accent)]"><i class="fas fa-history mr-1"></i>Then vs Now</a>
+        <a href="#future-me" class="hover:text-[var(--accent)]"><i class="fas fa-envelope mr-1"></i>Future Me</a>
+        <a href="#soundtrack" class="hover:text-[var(--accent)]"><i class="fas fa-music mr-1"></i>Soundtrack</a>
+        <a href="#converter" class="hover:text-[var(--accent)]"><i class="fas fa-exchange-alt mr-1"></i>Converter</a>
+        <a href="#packing" class="hover:text-[var(--accent)]"><i class="fas fa-suitcase mr-1"></i>Packing</a>
+        <a href="#guestbook" class="hover:text-[var(--accent)]"><i class="fas fa-comments mr-1"></i>Guestbook</a>
+        <a href="#resources" class="hover:text-[var(--accent)]"><i class="fas fa-book mr-1"></i>Resources</a>
+    </nav>
+
+    <!-- Homepage -->
+    <section id="home" class="max-w-6xl mx-auto py-8 px-4">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--primary)]"><i class="fas fa-sun mr-2"></i>Welcome!</h2>
+            <p class="mt-2">Join us as we prepare to move to Valencia in July 2026!</p>
+        </div>
+    </section>
+
+    <!-- Replace the Rentals Carousel section with this new Apartment Tracker -->
+<section id="rentals" class="max-w-6xl mx-auto py-8 px-4">
+    <div class="card fade-in">
+        <h2 class="text-2xl font-bold text-[var(--primary)]"><i class="fas fa-home mr-2"></i>Apartment Tracker</h2>
+        
+        <!-- Filter Controls -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+            <select id="area-filter" class="p-2 border rounded">
+                <option value="">All Areas</option>
+                <option value="Ciutat Vella">Ciutat Vella</option>
+                <option value="Eixample">Eixample</option>
+                <option value="Extramurs">Extramurs</option>
+                <option value="El Pla del Real">El Pla del Real</option>
+                <option value="L'Olivereta">L'Olivereta</option>
+                <option value="Patraix">Patraix</option>
+                <option value="Jesús">Jesús</option>
+                <option value="Quatre Carreres">Quatre Carreres</option>
+                <option value="Poblats Marítims">Poblats Marítims</option>
+                <option value="Camins al Grau">Camins al Grau</option>
+                <option value="Algirós">Algirós</option>
+                <option value="Benimaclet">Benimaclet</option>
+                <option value="Rascanya">Rascanya</option>
+                <option value="Benicalap">Benicalap</option>
+            </select>
+            
+            <select id="price-filter" class="p-2 border rounded">
+                <option value="">Any Price</option>
+                <option value="0-1000">Under €1000</option>
+                <option value="1000-1500">€1000-€1500</option>
+                <option value="1500-2000">€1500-€2000</option>
+                <option value="2000">€2000+</option>
+            </select>
+            
+            <select id="bedrooms-filter" class="p-2 border rounded">
+                <option value="">Any Size</option>
+                <option value="1">1 Bedroom</option>
+                <option value="2">2 Bedrooms</option>
+                <option value="3">3+ Bedrooms</option>
+            </select>
+            
+            <button class="btn" onclick="filterApartments()">Filter</button>
+        </div>
+        
+        <!-- Status Tabs -->
+        <div class="flex border-b mt-6">
+            <button class="px-4 py-2 font-medium border-b-2 border-[var(--primary)]" onclick="filterByStatus('all')">All (20)</button>
+            <button class="px-4 py-2 text-gray-500" onclick="filterByStatus('favorites')">Favorites (5)</button>
+            <button class="px-4 py-2 text-gray-500" onclick="filterByStatus('viewed')">Viewed (8)</button>
+            <button class="px-4 py-2 text-gray-500" onclick="filterByStatus('contacted')">Contacted (3)</button>
+            <button class="px-4 py-2 text-gray-500" onclick="filterByStatus('rejected')">Rejected (4)</button>
+        </div>
+        
+        <!-- Apartments Grid -->
+        <div id="apartments-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            <!-- Apartment cards will be dynamically inserted here -->
+        </div>
+        
+        <!-- Add New Apartment Form -->
+        <div class="mt-8 p-4 border rounded-lg">
+            <h3 class="font-bold text-lg mb-4">Add New Apartment</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="new-apt-name" placeholder="Name/Title" class="p-2 border rounded">
+                <input type="text" id="new-apt-area" placeholder="Area/Neighborhood" class="p-2 border rounded">
+                <input type="number" id="new-apt-price" placeholder="Price (€)" class="p-2 border rounded">
+                <input type="number" id="new-apt-bedrooms" placeholder="Bedrooms" class="p-2 border rounded">
+                <input type="text" id="new-apt-contact" placeholder="Contact Info" class="p-2 border rounded">
+                <input type="url" id="new-apt-link" placeholder="Listing URL" class="p-2 border rounded">
+                <textarea id="new-apt-notes" placeholder="Notes/Pros & Cons" class="p-2 border rounded md:col-span-2" rows="3"></textarea>
+                <input type="file" id="new-apt-photos" accept="image/*" multiple class="p-2 border rounded md:col-span-2">
+            </div>
+            <button class="btn mt-4" onclick="addNewApartment()">Add Apartment</button>
+        </div>
+    </div>
+</section>
+<!-- Interactive Timeline Section -->
+<section id="timeline" class="max-w-6xl mx-auto py-8 px-4">
+    <div class="card fade-in">
+        <h2 class="text-2xl font-bold text-[var(--primary)] mb-6 flex items-center">
+            <i class="fas fa-stream mr-2"></i>Our Moving Journey Timeline
+            <span class="ml-auto text-sm font-normal bg-[var(--primary-light)] text-white px-3 py-1 rounded-full">
+                <i class="fas fa-plane-departure mr-1"></i> July 2026
+            </span>
+        </h2>
+
+        <!-- Timeline Progress -->
+        <div class="relative mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Start</span>
+                <span id="timeline-current-date">Today: March 25, 2025</span>
+                <span>Move Day!</span>
+            </div>
+            <div class="relative w-full h-3 bg-[var(--neutral-light)] dark:bg-[var(--neutral-dark)] rounded-full">
+                <div id="timeline-progress" class="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--primary-light)] to-[var(--secondary-light)] rounded-full transition-all duration-1000 ease-out" style="width: 15%">
+                    <div class="absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-[var(--secondary)] rounded-full border-4 border-white shadow-lg flex items-center justify-center">
+                        <i class="fas fa-plane text-white text-xs transform -rotate-45"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline View Options -->
+        <div class="flex gap-2 mb-6 flex-wrap">
+            <button class="px-3 py-1 text-sm rounded-full bg-[var(--primary)] text-white" onclick="changeTimelineView('roadmap')">
+                <i class="fas fa-map-marked-alt mr-1"></i> Roadmap
+            </button>
+            <button class="px-3 py-1 text-sm rounded-full bg-[var(--accent)] text-white" onclick="changeTimelineView('phases')">
+                <i class="fas fa-layer-group mr-1"></i> Phases
+            </button>
+            <button class="px-3 py-1 text-sm rounded-full bg-[var(--secondary)] text-white" onclick="changeTimelineView('milestones')">
+                <i class="fas fa-flag-checkered mr-1"></i> Milestones
+            </button>
+            <button class="px-3 py-1 text-sm rounded-full bg-[var(--dark-light)] text-white" onclick="changeTimelineView('checklist')">
+                <i class="fas fa-tasks mr-1"></i> Checklist
+            </button>
+        </div>
+
+        <!-- Interactive Timeline Container -->
+        <div class="timeline-container relative">
+            <!-- Timeline Line -->
+            <div class="timeline-line absolute left-4 top-0 bottom-0 w-1 bg-[var(--primary-light)] dark:bg-[var(--primary-dark)] rounded-full"></div>
+            
+            <!-- Timeline Items -->
+            <div id="timeline-items" class="space-y-8 pl-12">
+                <!-- Phase 1: Research & Planning -->
+                <div class="timeline-phase group" data-phase="1" data-start="2025-05-01" data-end="2025-07-31">
+                    <div class="timeline-phase-header flex items-center cursor-pointer" onclick="togglePhaseDetails(1)">
+                        <div class="timeline-dot w-8 h-8 rounded-full bg-[var(--primary)] text-white flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Research & Planning</h3>
+                        <span class="ml-auto bg-[var(--light)] dark:bg-[var(--dark)] px-3 py-1 rounded-full text-sm">May - July 2025</span>
+                        <i class="fas fa-chevron-down ml-2 transform group-[.active]:rotate-180 transition-transform"></i>
+                    </div>
+                    <div class="timeline-phase-details mt-3 pl-11 hidden group-[.active]:block">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Task 1 -->
+                            <div class="timeline-task card p-4 flex items-start" data-completed="true" data-date="2025-05-15">
+                                <div class="mr-3">
+                                    <div class="w-6 h-6 rounded-full bg-[var(--secondary)] flex items-center justify-center text-white">
+                                        <i class="fas fa-check text-xs"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Research Visa Options</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Explore Non-Lucrative Visa requirements and alternatives</p>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Visa</span>
+                                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Task 2 -->
+                            <div class="timeline-task card p-4 flex items-start" data-completed="false" data-date="2025-06-01">
+                                <div class="mr-3">
+                                    <div class="w-6 h-6 rounded-full border-2 border-[var(--primary)] flex items-center justify-center">
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Financial Planning</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Calculate required income (€28,800+/year for family)</p>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">Finance</span>
+                                        <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">In Progress</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-sm mt-4 ml-11" onclick="addTimelineTask(1)">
+                            <i class="fas fa-plus mr-1"></i> Add Task
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Phase 2: Preparation -->
+                <div class="timeline-phase group" data-phase="2" data-start="2025-08-01" data-end="2025-12-31">
+                    <div class="timeline-phase-header flex items-center cursor-pointer" onclick="togglePhaseDetails(2)">
+                        <div class="timeline-dot w-8 h-8 rounded-full bg-[var(--accent)] text-white flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Preparation Phase</h3>
+                        <span class="ml-auto bg-[var(--light)] dark:bg-[var(--dark)] px-3 py-1 rounded-full text-sm">Aug - Dec 2025</span>
+                        <i class="fas fa-chevron-down ml-2 transform group-[.active]:rotate-180 transition-transform"></i>
+                    </div>
+                    <div class="timeline-phase-details mt-3 pl-11 hidden group-[.active]:block">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Task 1 -->
+                            <div class="timeline-task card p-4 flex items-start" data-completed="false" data-date="2025-09-15">
+                                <div class="mr-3">
+                                    <div class="w-6 h-6 rounded-full border-2 border-[var(--primary)] flex items-center justify-center">
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Secure Health Insurance</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Obtain private health coverage for all family members</p>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full">Health</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Task 2 -->
+                            <div class="timeline-task card p-4 flex items-start" data-completed="false" data-date="2025-10-01">
+                                <div class="mr-3">
+                                    <div class="w-6 h-6 rounded-full border-2 border-[var(--primary)] flex items-center justify-center">
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">School Research</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Find international or local schools for Julian</p>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Education</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-sm mt-4 ml-11" onclick="addTimelineTask(2)">
+                            <i class="fas fa-plus mr-1"></i> Add Task
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Phase 3: Execution -->
+                <div class="timeline-phase group" data-phase="3" data-start="2026-01-01" data-end="2026-04-30">
+                    <div class="timeline-phase-header flex items-center cursor-pointer" onclick="togglePhaseDetails(3)">
+                        <div class="timeline-dot w-8 h-8 rounded-full bg-[var(--secondary)] text-white flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Execution Phase</h3>
+                        <span class="ml-auto bg-[var(--light)] dark:bg-[var(--dark)] px-3 py-1 rounded-full text-sm">Jan - Apr 2026</span>
+                        <i class="fas fa-chevron-down ml-2 transform group-[.active]:rotate-180 transition-transform"></i>
+                    </div>
+                    <div class="timeline-phase-details mt-3 pl-11 hidden group-[.active]:block">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Task 1 -->
+                            <div class="timeline-task card p-4 flex items-start" data-completed="false" data-date="2026-01-15">
+                                <div class="mr-3">
+                                    <div class="w-6 h-6 rounded-full border-2 border-[var(--primary)] flex items-center justify-center">
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Visa Application</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Submit docs to Spanish consulate</p>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Visa</span>
+                                        <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">Critical</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Task 2 -->
+                            <div class="timeline-task card p-4 flex items-start" data-completed="false" data-date="2026-02-01">
+                                <div class="mr-3">
+                                    <div class="w-6 h-6 rounded-full border-2 border-[var(--primary)] flex items-center justify-center">
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Housing Search</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Find rental in Valencia neighborhoods</p>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <span class="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full">Housing</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-sm mt-4 ml-11" onclick="addTimelineTask(3)">
+                            <i class="fas fa-plus mr-1"></i> Add Task
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Phase 4: Final Countdown -->
+                <div class="timeline-phase group" data-phase="4" data-start="2026-05-01" data-end="2026-06-30">
+                    <div class="timeline-phase-header flex items-center cursor-pointer" onclick="togglePhaseDetails(4)">
+                        <div class="timeline-dot w-8 h-8 rounded-full bg-[var(--primary-dark)] text-white flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-hourglass-half"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Final Countdown</h3>
+                        <span class="ml-auto bg-[var(--light)] dark:bg-[var(--dark)] px-3 py-1 rounded-full text-sm">May - Jun 2026</span>
+                        <i class="fas fa-chevron-down ml-2 transform group-[.active]:rotate-180 transition-transform"></i>
+                    </div>
+                    <div class="timeline-phase-details mt-3 pl-11 hidden group-[.active]:block">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Task 1 -->
+                            <div class="timeline-task card p-4 flex items-start" data-completed="false" data-date="2026-05-15">
+                                <div class="mr-3">
+                                    <div class="w-6 h-6 rounded-full border-2 border-[var(--primary)] flex items-center justify-center">
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Ship Belongings</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Arrange international shipping</p>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded-full">Logistics</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Task 2 -->
+                            <div class="timeline-task card p-4 flex items-start" data-completed="false" data-date="2026-06-01">
+                                <div class="mr-3">
+                                    <div class="w-6 h-6 rounded-full border-2 border-[var(--primary)] flex items-center justify-center">
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Travel Arrangements</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Book flights and pet transport</p>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <span class="text-xs bg-teal-100 text-teal-800 px-2 py-1 rounded-full">Travel</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-sm mt-4 ml-11" onclick="addTimelineTask(4)">
+                            <i class="fas fa-plus mr-1"></i> Add Task
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Move Day Milestone -->
+                <div class="timeline-milestone relative pl-11 mt-12">
+                    <div class="absolute left-0 top-0 bottom-0 flex flex-col items-center">
+                        <div class="w-8 h-8 rounded-full bg-[var(--secondary)] text-white flex items-center justify-center z-10">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="flex-1 w-1 bg-gradient-to-b from-[var(--secondary)] to-[var(--primary)]"></div>
+                    </div>
+                    <div class="card bg-gradient-to-r from-[var(--secondary)] to-[var(--primary)] text-white p-6">
+                        <div class="flex items-center">
+                            <h3 class="text-xl font-bold">Move to Valencia!</h3>
+                            <span class="ml-auto bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">July 1, 2026</span>
+                        </div>
+                        <p class="mt-2">Our family's big adventure begins in Spain's sunny Mediterranean city!</p>
+                        <div class="mt-4 flex items-center">
+                            <div class="flex items-center">
+                                <img src="https://ui-avatars.com/api/?name=You&background=random" class="w-8 h-8 rounded-full border-2 border-white">
+                                <img src="https://ui-avatars.com/api/?name=Helbert&background=random" class="w-8 h-8 rounded-full border-2 border-white -ml-2">
+                                <img src="https://ui-avatars.com/api/?name=Julian&background=random" class="w-8 h-8 rounded-full border-2 border-white -ml-2">
+                            </div>
+                            <button class="ml-auto btn btn-white" onclick="shareMilestone('move-day')">
+                                <i class="fas fa-share-alt mr-1"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Timeline Stats -->
+        <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="card text-center p-4">
+                <div class="text-3xl font-bold text-[var(--primary)]">4</div>
+                <div class="text-sm text-gray-600 dark:text-gray-300">Phases</div>
+            </div>
+            <div class="card text-center p-4">
+                <div class="text-3xl font-bold text-[var(--accent)]">8</div>
+                <div class="text-sm text-gray-600 dark:text-gray-300">Tasks</div>
+            </div>
+            <div class="card text-center p-4">
+                <div class="text-3xl font-bold text-[var(--secondary)]">1</div>
+                <div class="text-sm text-gray-600 dark:text-gray-300">Completed</div>
+            </div>
+            <div class="card text-center p-4">
+                <div class="text-3xl font-bold">462</div>
+                <div class="text-sm text-gray-600 dark:text-gray-300">Days Left</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Timeline Modal -->
+<div id="timeline-modal" class="modal">
+    <div class="modal-content max-w-md">
+        <span class="close-modal" onclick="closeModal('timeline-modal')">&times;</span>
+        <h3 class="text-lg font-bold mb-4" id="timeline-modal-title">Add New Task</h3>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium mb-1">Task Name</label>
+                <input type="text" id="task-name" class="w-full p-2 border rounded">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Due Date</label>
+                <input type="date" id="task-date" class="w-full p-2 border rounded">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Category</label>
+                <select id="task-category" class="w-full p-2 border rounded">
+                    <option value="visa">Visa/Immigration</option>
+                    <option value="finance">Finance</option>
+                    <option value="housing">Housing</option>
+                    <option value="education">Education</option>
+                    <option value="health">Health</option>
+                    <option value="travel">Travel</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Notes</label>
+                <textarea id="task-notes" class="w-full p-2 border rounded" rows="3"></textarea>
+            </div>
+            <button class="btn w-full" onclick="saveTimelineTask()">
+                <i class="fas fa-save mr-1"></i> Save Task
+            </button>
+        </div>
+    </div>
+</div>
+   
+ <!-- Weather Section -->
+<section id="weather" class="max-w-6xl mx-auto py-8 px-4">
+    <div class="card fade-in">
+        <h2 class="text-2xl font-bold text-[var(--primary)]"><i class="fas fa-cloud-sun mr-2"></i>Valencia Weather</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+            <!-- Current Weather -->
+            <div class="weather-card bg-gradient-to-br from-[var(--primary-light)] to-[var(--primary-dark)] text-white p-6 rounded-lg">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-xl font-bold">Current Weather</h3>
+                        <p id="current-date" class="text-sm opacity-80"></p>
+                    </div>
+                    <div id="current-weather-icon" class="text-5xl"></div>
+                </div>
+                
+                <div class="mt-4 flex items-end justify-between">
+                    <div>
+                        <span id="current-temp" class="text-5xl font-bold">24</span>
+                        <span class="text-2xl align-top">°C</span>
+                        <p id="current-desc" class="text-sm">Partly Cloudy</p>
+                    </div>
+                    <div class="text-right">
+                        <p><i class="fas fa-wind mr-1"></i> <span id="current-wind">12</span> km/h</p>
+                        <p><i class="fas fa-tint mr-1"></i> <span id="current-humidity">65</span>%</p>
+                        <p><i class="fas fa-sun mr-1"></i> UV <span id="current-uv">5</span></p>
+                    </div>
+                </div>
+                
+                <div id="current-attire" class="mt-4 p-3 bg-white bg-opacity-20 rounded-lg">
+                    <h4 class="font-bold text-sm mb-1">Suggested Attire</h4>
+                    <div class="flex gap-2">
+                        <div class="text-center">
+                            <i class="fas fa-tshirt text-2xl"></i>
+                            <p class="text-xs">Light layers</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-umbrella text-2xl"></i>
+                            <p class="text-xs">No rain</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-sun text-2xl"></i>
+                            <p class="text-xs">Sunscreen</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 5-Day Forecast -->
+            <div class="md:col-span-2">
+                <h3 class="font-bold mb-3">5-Day Forecast</h3>
+                <div id="forecast-container" class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    <!-- Forecast items will be inserted here -->
+                </div>
+                
+                <!-- Weather Map -->
+                <div class="mt-6">
+                    <h3 class="font-bold mb-3">Weather Map</h3>
+                    <div class="relative">
+                        <img src="https://maps.openweathermap.org/maps/2.0/weather/TA2/9/9/9?appid=ee6c435a2eaea8e6f4e7ebfa1f2e2f3e" 
+                             alt="Valencia Weather Map" class="w-full h-48 object-cover rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-30 rounded-lg"></div>
+                        <p class="absolute bottom-2 left-2 text-white text-sm">Live weather data via OpenWeatherMap</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Schools Carousel -->
+<section id="schools" class="max-w-6xl mx-auto py-8 px-4">
+    <div class="card fade-in">
+        <h2 class="text-2xl font-bold text-[var(--primary)]"><i class="fas fa-school mr-2"></i>Schools for Our 7-Year-Old</h2>
+        
+        <!-- School Filters -->
+        <div class="flex gap-2 mt-4 flex-wrap">
+            <button class="px-3 py-1 text-sm rounded-full bg-[var(--primary)] text-white" 
+                    onclick="filterSchools('all')">All</button>
+            <button class="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800" 
+                    onclick="filterSchools('international')">International</button>
+            <button class="px-3 py-1 text-sm rounded-full bg-green-100 text-green-800" 
+                    onclick="filterSchools('bilingual')">Bilingual</button>
+            <button class="px-3 py-1 text-sm rounded-full bg-yellow-100 text-yellow-800" 
+                    onclick="filterSchools('public')">Public</button>
+            <button class="px-3 py-1 text-sm rounded-full bg-purple-100 text-purple-800" 
+                    onclick="filterSchools('private')">Private</button>
+        </div>
+        
+        <div class="splide mt-4" id="schools-carousel">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <!-- School Item 1 -->
+                    <li class="splide__slide">
+                        <div class="card cursor-pointer" onclick="showSchoolModal(1)">
+                            <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                 alt="School" class="w-full h-48 object-cover rounded-t-lg">
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg">British School of Valencia</h3>
+                                <div class="flex items-center mt-1">
+                                    <div class="text-yellow-400 text-sm">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <span class="text-xs text-gray-500 ml-1">(42)</span>
+                                </div>
+                                <p class="text-sm mt-2">"Top-tier British education!" - Expat Parent</p>
+                                <p class="text-[var(--primary)] font-semibold mt-2">~€1,000/month</p>
+                                <div class="mt-3 flex justify-between items-center">
+                                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">International</span>
+                                    <button class="text-xs px-3 py-1 bg-[var(--primary)] text-white rounded">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <!-- School Item 2 -->
+                    <li class="splide__slide">
+                        <div class="card cursor-pointer" onclick="showSchoolModal(2)">
+                            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                 alt="School" class="w-full h-48 object-cover rounded-t-lg">
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg">Caxton College</h3>
+                                <div class="flex items-center mt-1">
+                                    <div class="text-yellow-400 text-sm">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <span class="text-xs text-gray-500 ml-1">(36)</span>
+                                </div>
+                                <p class="text-sm mt-2">"Great bilingual program." - Expat Family</p>
+                                <p class="text-[var(--primary)] font-semibold mt-2">~€600/month</p>
+                                <div class="mt-3 flex justify-between items-center">
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Bilingual</span>
+                                    <button class="text-xs px-3 py-1 bg-[var(--primary)] text-white rounded">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <!-- School Item 3 -->
+                    <li class="splide__slide">
+                        <div class="card cursor-pointer" onclick="showSchoolModal(3)">
+                            <img src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                 alt="School" class="w-full h-48 object-cover rounded-t-lg">
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg">American School of Valencia</h3>
+                                <div class="flex items-center mt-1">
+                                    <div class="text-yellow-400 text-sm">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="text-xs text-gray-500 ml-1">(58)</span>
+                                </div>
+                                <p class="text-sm mt-2">"US curriculum, excellent facilities." - Expat</p>
+                                <p class="text-[var(--primary)] font-semibold mt-2">~€1,200/month</p>
+                                <div class="mt-3 flex justify-between items-center">
+                                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">International</span>
+                                    <button class="text-xs px-3 py-1 bg-[var(--primary)] text-white rounded">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <!-- School Item 4 -->
+                    <li class="splide__slide">
+                        <div class="card cursor-pointer" onclick="showSchoolModal(4)">
+                            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                 alt="School" class="w-full h-48 object-cover rounded-t-lg">
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg">Lycee Français de Valence</h3>
+                                <div class="flex items-center mt-1">
+                                    <div class="text-yellow-400 text-sm">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <span class="text-xs text-gray-500 ml-1">(29)</span>
+                                </div>
+                                <p class="text-sm mt-2">"Excellent French curriculum option." - French Expat</p>
+                                <p class="text-[var(--primary)] font-semibold mt-2">~€800/month</p>
+                                <div class="mt-3 flex justify-between items-center">
+                                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">International</span>
+                                    <button class="text-xs px-3 py-1 bg-[var(--primary)] text-white rounded">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <!-- School Item 5 -->
+                    <li class="splide__slide">
+                        <div class="card cursor-pointer" onclick="showSchoolModal(5)">
+                            <img src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                 alt="School" class="w-full h-48 object-cover rounded-t-lg">
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg">Elian's British School</h3>
+                                <div class="flex items-center mt-1">
+                                    <div class="text-yellow-400 text-sm">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <span class="text-xs text-gray-500 ml-1">(31)</span>
+                                </div>
+                                <p class="text-sm mt-2">"Great for younger children." - British Parent</p>
+                                <p class="text-[var(--primary)] font-semibold mt-2">~€900/month</p>
+                                <div class="mt-3 flex justify-between items-center">
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Bilingual</span>
+                                    <button class="text-xs px-3 py-1 bg-[var(--primary)] text-white rounded">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Add New School Form -->
+        <div class="mt-8 p-4 border rounded-lg">
+            <h3 class="font-bold text-lg mb-4">Add New School</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="new-school-name" placeholder="School Name" class="p-2 border rounded">
+                <select id="new-school-type" class="p-2 border rounded">
+                    <option value="international">International</option>
+                    <option value="bilingual">Bilingual</option>
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                </select>
+                <input type="number" id="new-school-price" placeholder="Monthly Cost (€)" class="p-2 border rounded">
+                <input type="text" id="new-school-curriculum" placeholder="Curriculum" class="p-2 border rounded">
+                <textarea id="new-school-notes" placeholder="Notes/Reviews" class="p-2 border rounded md:col-span-2" rows="3"></textarea>
+                <input type="url" id="new-school-website" placeholder="Website URL" class="p-2 border rounded">
+                <input type="file" id="new-school-image" accept="image/*" class="p-2 border rounded">
+            </div>
+            <button class="btn mt-4" onclick="addNewSchool()">Add School</button>
+        </div>
+    </div>
+</section>
+
+   <!-- Replace the existing Budget Tracker section with this enhanced version -->
+<section id="budget" class="max-w-6xl mx-auto py-8 px-4">
+    <div class="card fade-in">
+        <h2 class="text-2xl font-bold text-[var(--primary)]"><i class="fas fa-wallet mr-2"></i>Budget Tracker</h2>
+        
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Chart with Icons -->
+            <div>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold">Monthly Expenses</h3>
+                    <div class="flex items-center">
+                        <label class="mr-2">Family Size:</label>
+                        <select id="family-size" class="p-1 border rounded" onchange="updateBudgetRecommendations()">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3" selected>3</option>
+                            <option value="4">4</option>
+                            <option value="5">5+</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <canvas id="budgetChart" height="200"></canvas>
+                
+                <div id="budget-warnings" class="mt-4 space-y-2">
+                    <!-- Warnings will appear here -->
+                </div>
+            </div>
+            
+            <!-- Budget Inputs -->
+            <div id="budget-inputs">
+                <div class="grid grid-cols-1 gap-4">
+                    <!-- Rent -->
+                    <label class="block relative">
+                        <div class="flex items-center">
+                            <i class="fas fa-home mr-2 text-[var(--primary)]"></i>
+                            <span>Rent:</span>
+                        </div>
+                        <input type="number" data-label="Rent" data-icon="home" data-max-percent="30" 
+                               value="1500" class="budget-item border p-2 rounded w-full mt-1 pl-8">
+                        <div class="absolute left-2 bottom-2 text-gray-400">€</div>
+                    </label>
+                    
+                    <!-- Groceries -->
+                    <label class="block relative">
+                        <div class="flex items-center">
+                            <i class="fas fa-shopping-basket mr-2 text-[var(--primary)]"></i>
+                            <span>Groceries:</span>
+                        </div>
+                        <input type="number" data-label="Groceries" data-icon="shopping-basket" data-max-percent="15" 
+                               value="375" class="budget-item border p-2 rounded w-full mt-1 pl-8">
+                        <div class="absolute left-2 bottom-2 text-gray-400">€</div>
+                    </label>
+                    
+                    <!-- Utilities -->
+                    <label class="block relative">
+                        <div class="flex items-center">
+                            <i class="fas fa-bolt mr-2 text-[var(--primary)]"></i>
+                            <span>Utilities:</span>
+                        </div>
+                        <input type="number" data-label="Utilities" data-icon="bolt" data-max-percent="10" 
+                               value="175" class="budget-item border p-2 rounded w-full mt-1 pl-8">
+                        <div class="absolute left-2 bottom-2 text-gray-400">€</div>
+                    </label>
+                    
+                    <!-- Transport -->
+                    <label class="block relative">
+                        <div class="flex items-center">
+                            <i class="fas fa-bus mr-2 text-[var(--primary)]"></i>
+                            <span>Transport:</span>
+                        </div>
+                        <input type="number" data-label="Transport" data-icon="bus" data-max-percent="5" 
+                               value="100" class="budget-item border p-2 rounded w-full mt-1 pl-8">
+                        <div class="absolute left-2 bottom-2 text-gray-400">€</div>
+                    </label>
+                    
+                    <!-- School -->
+                    <label class="block relative">
+                        <div class="flex items-center">
+                            <i class="fas fa-school mr-2 text-[var(--primary)]"></i>
+                            <span>School:</span>
+                        </div>
+                        <input type="number" data-label="School" data-icon="school" data-max-percent="20" 
+                               value="0" class="budget-item border p-2 rounded w-full mt-1 pl-8">
+                        <div class="absolute left-2 bottom-2 text-gray-400">€</div>
+                    </label>
+                    
+                    <!-- Insurance -->
+                    <label class="block relative">
+                        <div class="flex items-center">
+                            <i class="fas fa-shield-alt mr-2 text-[var(--primary)]"></i>
+                            <span>Insurance:</span>
+                        </div>
+                        <input type="number" data-label="Insurance" data-icon="shield-alt" data-max-percent="5" 
+                               value="200" class="budget-item border p-2 rounded w-full mt-1 pl-8">
+                        <div class="absolute left-2 bottom-2 text-gray-400">€</div>
+                    </label>
+                    
+                    <!-- Entertainment -->
+                    <label class="block relative">
+                        <div class="flex items-center">
+                            <i class="fas fa-film mr-2 text-[var(--primary)]"></i>
+                            <span>Entertainment:</span>
+                        </div>
+                        <input type="number" data-label="Entertainment" data-icon="film" data-max-percent="10" 
+                               value="150" class="budget-item border p-2 rounded w-full mt-1 pl-8">
+                        <div class="absolute left-2 bottom-2 text-gray-400">€</div>
+                    </label>
+                    
+                    <!-- Additional Income -->
+                    <label class="block relative">
+                        <div class="flex items-center">
+                            <i class="fas fa-euro-sign mr-2 text-[var(--primary)]"></i>
+                            <span>Add'l Income:</span>
+                        </div>
+                        <input type="number" id="addIncome" value="0" class="border p-2 rounded w-full mt-1 pl-8">
+                        <div class="absolute left-2 bottom-2 text-gray-400">€</div>
+                    </label>
+                </div>
+                
+                <!-- Add New Item -->
+                <div class="mt-4">
+                    <div class="flex gap-2">
+                        <input type="text" id="newItemLabel" class="border p-2 rounded flex-1" placeholder="Item name">
+                        <select id="newItemIcon" class="border p-2 rounded">
+                            <option value="home">Home</option>
+                            <option value="utensils">Dining</option>
+                            <option value="wifi">Internet</option>
+                            <option value="phone">Mobile</option>
+                            <option value="car">Car</option>
+                            <option value="heart">Health</option>
+                            <option value="tshirt">Clothing</option>
+                            <option value="gift">Gifts</option>
+                            <option value="plane">Travel</option>
+                        </select>
+                        <input type="number" id="newItemMaxPercent" class="border p-2 rounded w-20" placeholder="Max %" min="1" max="100">
+                    </div>
+                    <button class="btn mt-2 w-full" onclick="addBudgetItem()">Add Budget Item</button>
+                </div>
+                
+                <!-- Summary -->
+                <div class="mt-4 p-3 bg-[var(--light)] rounded-lg">
+                    <div class="flex justify-between">
+                        <p class="font-bold">Total Budget:</p>
+                        <p id="total-budget" class="font-bold">€6000</p>
+                    </div>
+                    <div class="flex justify-between">
+                        <p>Total Expenses:</p>
+                        <p id="total-expenses">€2500</p>
+                    </div>
+                    <div class="flex justify-between">
+                        <p>Remaining:</p>
+                        <p id="remaining" class="font-bold text-[var(--accent)]">€3500</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Animated To-Do List -->
+    <section id="todo" class="max-w-6xl mx-auto py-8 px-4">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--primary)]"><i class="fas fa-tasks mr-2"></i>To-Do List</h2>
+            <div class="mt-4">
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Research NLV Requirements</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Gather Income Proof</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Secure Health Insurance</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Open BBVA Account</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Book Consulate Appointment</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Submit NLV Application</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Arrange Shipping/Furniture</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Research Spanish Lessons</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Notify Landlord</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Cancel Utilities</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Pack Belongings</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Book Flights</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Move to Valencia!</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Register for Padrón</div>
+                <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Apply for NIE</div>
+            </div>
+        </div>
+    </section>
+
+   <!-- Replace the existing Calendar section with this enhanced version -->
+<section id="calendar" class="max-w-6xl mx-auto py-8 px-4">
+    <div class="card fade-in">
+        <h2 class="text-2xl font-bold text-[var(--primary)]"><i class="fas fa-calendar mr-2"></i>Moving Calendar</h2>
+        
+        <div class="flex gap-2 mt-4 flex-wrap">
+            <button class="px-3 py-1 text-sm rounded-full bg-[var(--primary)] text-white" 
+                    onclick="filterCalendarEvents('all')">All</button>
+            <button class="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800" 
+                    onclick="filterCalendarEvents('appointment')">
+                <i class="fas fa-calendar-check mr-1"></i> Appointments
+            </button>
+            <button class="px-3 py-1 text-sm rounded-full bg-green-100 text-green-800" 
+                    onclick="filterCalendarEvents('task')">
+                <i class="fas fa-tasks mr-1"></i> Tasks
+            </button>
+            <button class="px-3 py-1 text-sm rounded-full bg-yellow-100 text-yellow-800" 
+                    onclick="filterCalendarEvents('payment')">
+                <i class="fas fa-money-bill-wave mr-1"></i> Payments
+            </button>
+            <button class="px-3 py-1 text-sm rounded-full bg-red-100 text-red-800" 
+                    onclick="filterCalendarEvents('deadline')">
+                <i class="fas fa-exclamation-triangle mr-1"></i> Deadlines
+            </button>
+        </div>
+        
+        <div id="calendar-container" class="mt-4"></div>
+        
+        <!-- Add Event Form -->
+        <div class="mt-6 p-4 border rounded-lg">
+            <h3 class="font-bold text-lg mb-3">Add New Event</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="new-event-title" placeholder="Event title" class="p-2 border rounded">
+                <select id="new-event-type" class="p-2 border rounded">
+                    <option value="appointment">Appointment</option>
+                    <option value="task">Task</option>
+                    <option value="payment">Payment</option>
+                    <option value="deadline">Deadline</option>
+                </select>
+                <input type="date" id="new-event-date" class="p-2 border rounded">
+                <input type="time" id="new-event-time" class="p-2 border rounded">
+                <textarea id="new-event-notes" placeholder="Notes" class="p-2 border rounded md:col-span-2" rows="2"></textarea>
+            </div>
+            <button class="btn mt-3" onclick="addCalendarEvent()">Add Event</button>
+        </div>
+    </div>
+</section>
+    <!-- Replace the existing Map section with this enhanced version -->
+<section id="map" class="max-w-6xl mx-auto py-8 px-4">
+    <div class="card fade-in">
+        <h2 class="text-2xl font-bold text-[var(--primary)]"><i class="fas fa-map mr-2"></i>Valencia Heatmap</h2>
+        
+        <div class="flex gap-2 mt-4 flex-wrap">
+            <button class="px-3 py-1 text-sm rounded-full bg-[var(--primary)] text-white" 
+                    onclick="updateHeatmap('all')">All</button>
+            <button class="px-3 py-1 text-sm rounded-full bg-[var(--secondary)] text-white" 
+                    onclick="updateHeatmap('rentals')">Rentals</button>
+            <button class="px-3 py-1 text-sm rounded-full bg-[var(--accent)] text-white" 
+                    onclick="updateHeatmap('schools')">Schools</button>
+            <button class="px-3 py-1 text-sm rounded-full bg-purple-600 text-white" 
+                    onclick="updateHeatmap('amenities')">Amenities</button>
+        </div>
+        
+        <div id="heatmap-container" class="h-[500px] mt-4 rounded-lg overflow-hidden relative">
+            <div id="map" class="h-full w-full"></div>
+            <div class="absolute bottom-4 left-4 bg-white bg-opacity-90 p-2 rounded-lg shadow">
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-blue-400 rounded-full mr-1"></div>
+                    <span class="text-xs mr-2">Low</span>
+                    <div class="w-4 h-4 bg-green-400 rounded-full mr-1"></div>
+                    <span class="text-xs mr-2">Medium</span>
+                    <div class="w-4 h-4 bg-red-500 rounded-full mr-1"></div>
+                    <span class="text-xs">High</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-3 bg-[var(--light)] rounded-lg">
+                <h3 class="font-bold mb-2">Rental Prices</h3>
+                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-blue-400 via-green-400 to-red-500" style="width: 100%"></div>
+                </div>
+                <div class="flex justify-between text-xs mt-1">
+                    <span>€800</span>
+                    <span>€1200</span>
+                    <span>€1600+</span>
+                </div>
+            </div>
+            <div class="p-3 bg-[var(--light)] rounded-lg">
+                <h3 class="font-bold mb-2">School Ratings</h3>
+                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-blue-400 via-green-400 to-red-500" style="width: 100%"></div>
+                </div>
+                <div class="flex justify-between text-xs mt-1">
+                    <span>6/10</span>
+                    <span>7.5/10</span>
+                    <span>9/10</span>
+                </div>
+            </div>
+            <div class="p-3 bg-[var(--light)] rounded-lg">
+                <h3 class="font-bold mb-2">Amenity Density</h3>
+                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-blue-400 via-green-400 to-red-500" style="width: 100%"></div>
+                </div>
+                <div class="flex justify-between text-xs mt-1">
+                    <span>Low</span>
+                    <span>Medium</span>
+                    <span>High</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Journal/Diary Entries Section -->
+    <section id="journal" class="max-w-6xl mx-auto py-8 px-4">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--primary)]"><i class="fas fa-book-open mr-2"></i>Family Journal</h2>
+            <div id="journal-entries" class="mt-4 space-y-6">
+                <!-- Sample Entry -->
+                <div class="journal-entry bg-[var(--light)] p-4 rounded-lg shadow">
+                    <h3 class="font-bold text-lg">March 24, 2025 - Planning Begins!</h3>
+                    <div class="prose mt-2" id="entry-1"></div>
+                    <img src="https://images.unsplash.com/photo-1518600654-5d0abbcf51d0" alt="Planning" class="w-full h-48 object-cover rounded-lg mt-2">
+                </div>
+            </div>
+            <textarea id="new-entry" class="w-full p-2 mt-4 border rounded" rows="4" placeholder="Write a new entry (Markdown supported)"></textarea>
+            <input type="file" id="entry-media" accept="image/*,video/*" class="mt-2">
+            <button class="btn mt-2" onclick="addJournalEntry()">Add Entry</button>
+        </div>
+    </section>
+
+    <!-- Interactive Family Map Pins -->
+    <section id="family-map" class="max-w-6xl mx-auto py-8 px-4">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--primary)]"><i class="fas fa-map-pin mr-2"></i>Family Favorite Places</h2>
+            <div id="family-map-container" class="h-[400px] mt-4 rounded-lg shadow"></div>
+            <div class="mt-4 flex gap-4">
+                <button class="btn" onclick="togglePins('home')">Toggle Home</button>
+                <button class="btn" onclick="togglePins('school')">Toggle School</button>
+                <button class="btn" onclick="togglePins('dream')">Toggle Dream Places</button>
+            </div>
+            <input id="new-pin-name" class="mt-2 p-2 border rounded" placeholder="Pin Name">
+            <input id="new-pin-lat" class="mt-2 p-2 border rounded" placeholder="Latitude" type="number" step="any">
+            <input id="new-pin-lng" class="mt-2 p-2 border rounded" placeholder="Longitude" type="number" step="any">
+            <button class="btn mt-2" onclick="addFamilyPin()">Add Pin</button>
+        </div>
+    </section>
+
+  <!-- Replace the existing Bucket List section with this enhanced version -->
+<section id="bucket-list" class="max-w-6xl mx-auto py-8 px-4">
+    <div class="card fade-in">
+        <h2 class="text-2xl font-bold text-[var(--primary)]"><i class="fas fa-list-check mr-2"></i>Valencia Bucket List</h2>
+        
+        <div class="mt-4">
+            <div class="flex items-center mb-4">
+                <div class="flex-1">
+                    <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div id="bucket-progress-bar" class="h-full bg-[var(--accent)]" style="width: 30%"></div>
+                    </div>
+                </div>
+                <span id="bucket-progress-text" class="ml-3 font-bold">3/10</span>
+            </div>
+            
+            <div id="bucket-items" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Bucket Item 1 -->
+                <div class="bucket-item card p-0 overflow-hidden" data-completed="true">
+                    <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
+                         alt="Paella" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold">Eat authentic paella 🥘</h3>
+                            <button class="text-[var(--secondary)]" onclick="toggleBucketItem(this)">
+                                <i class="fas fa-check-circle"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm mt-2">Try the traditional Valencian paella at a local restaurant</p>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-xs text-gray-500">Ciutat Vella</span>
+                            <span class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full">Completed</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bucket Item 2 -->
+                <div class="bucket-item card p-0 overflow-hidden" data-completed="false">
+                    <img src="https://images.unsplash.com/photo-1580502304784-8985b7eb7260?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
+                         alt="Fallas" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold">See Las Fallas festival 🔥</h3>
+                            <button class="text-gray-300" onclick="toggleBucketItem(this)">
+                                <i class="far fa-check-circle"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm mt-2">Experience Valencia's famous festival in March</p>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-xs text-gray-500">Citywide</span>
+                            <span class="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">Pending</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- More items would be here -->
+            </div>
+            
+            <!-- Add New Bucket Item -->
+            <div class="mt-6 p-4 border rounded-lg">
+                <h3 class="font-bold text-lg mb-3">Add New Bucket List Item</h3>
+                <div class="grid grid-cols-1 gap-4">
+                    <input type="text" id="new-bucket-title" placeholder="Item title" class="p-2 border rounded">
+                    <textarea id="new-bucket-desc" placeholder="Description" class="p-2 border rounded" rows="2"></textarea>
+                    <input type="text" id="new-bucket-location" placeholder="Location in Valencia" class="p-2 border rounded">
+                    <input type="file" id="new-bucket-image" accept="image/*" class="p-2 border rounded">
+                    <button class="btn" onclick="addBucketItem()">Add Item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+   <!-- Adventure-Themed Currency Converter -->
+<section id="converter" class="max-w-6xl mx-auto py-8 px-4">
+    <div class="card fade-in bg-gradient-to-br from-[var(--primary-light)] to-[var(--primary-dark)]">
+        <div class="flex items-center justify-between">
+            <h2 class="text-2xl font-bold text-white"><i class="fas fa-coins mr-2"></i>Global Currency Explorer</h2>
+            <div class="text-sm bg-white bg-opacity-20 px-3 py-1 rounded-full text-white" id="rate-status">
+                <i class="fas fa-sync-alt fa-spin mr-1"></i> Loading live rates...
+            </div>
+        </div>
+
+        <div class="mt-6 flex flex-col md:flex-row items-center justify-center gap-4">
+            <!-- From Currency -->
+            <div class="currency-card">
+                <div class="currency-header">
+                    <div class="currency-flag" id="from-flag">🌎</div>
+                    <select id="from-currency" class="currency-select">
+                        <option value="USD" selected>USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="JPY">JPY</option>
+                        <option value="CAD">CAD</option>
+                    </select>
+                </div>
+                <input type="number" id="from-amount" value="100" class="currency-input">
+                <div class="currency-name" id="from-currency-name">US Dollar</div>
+            </div>
+
+            <!-- Swap Button -->
+            <button id="swap-currencies" class="swap-btn transform hover:rotate-180 transition-transform duration-500">
+                <i class="fas fa-random text-[var(--secondary)]"></i>
+            </button>
+
+            <!-- To Currency -->
+            <div class="currency-card">
+                <div class="currency-header">
+                    <div class="currency-flag" id="to-flag">🇪🇺</div>
+                    <select id="to-currency" class="currency-select">
+                        <option value="USD">USD</option>
+                        <option value="EUR" selected>EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="JPY">JPY</option>
+                        <option value="CAD">CAD</option>
+                    </select>
+                </div>
+                <input type="number" id="to-amount" class="currency-input" readonly>
+                <div class="currency-name" id="to-currency-name">Euro</div>
+            </div>
+        </div>
+
+        <!-- Exchange Rate Display -->
+        <div class="mt-6 text-center">
+            <div class="inline-block bg-white bg-opacity-10 px-4 py-2 rounded-full">
+                <span id="exchange-rate" class="font-mono text-white">1 USD = 0.85 EUR</span>
+                <span class="text-xs text-white opacity-75 ml-2" id="rate-trend"><i class="fas fa-arrow-up text-green-300"></i> +0.2% today</span>
+            </div>
+        </div>
+        <!-- Currency Passport Stamp Visualization -->
+        <div class="mt-8">
+            <h3 class="text-lg font-bold text-white mb-4 text-center">Exchange Rate Journey</h3>
+            <div class="relative h-40">
+                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541140134513-85a161dc4a00?auto=format&fit=crop&w=500&q=80')] bg-cover bg-center opacity-20 rounded-lg"></div>
+                <div class="relative z-10 flex justify-around items-center h-full px-4">
+                    <div class="passport-stamp from-currency">
+                        <div class="stamp-value" id="from-stamp-value">100</div>
+                        <div class="stamp-currency" id="from-stamp-currency">USD</div>
+                    </div>
+                    <div class="animated-plane">
+                        <i class="fas fa-plane text-[var(--secondary)]"></i>
+                    </div>
+                    <div class="passport-stamp to-currency">
+                        <div class="stamp-value" id="to-stamp-value">85</div>
+                        <div class="stamp-currency" id="to-stamp-currency">EUR</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historical Rates Timeline -->
+        <div class="mt-8">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-lg font-bold text-white">Historical Rates</h3>
+                <div class="text-xs text-white opacity-75" id="last-updated">Updated: Just now</div>
+            </div>
+            <div class="timeline-container">
+                <div class="timeline-scroll">
+                    <div class="timeline">
+                        <div class="timeline-item" data-date="Today" data-rate="0.85"></div>
+                        <div class="timeline-item" data-date="1d" data-rate="0.848"></div>
+                        <div class="timeline-item" data-date="2d" data-rate="0.847"></div>
+                        <div class="timeline-item" data-date="3d" data-rate="0.849"></div>
+                        <div class="timeline-item" data-date="4d" data-rate="0.852"></div>
+                        <div class="timeline-item" data-date="5d" data-rate="0.851"></div>
+                        <div class="timeline-item" data-date="1w" data-rate="0.853"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Packing List Generator -->
+    <section id="packing" class="max-w-6xl mx-auto py-8 px-4">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--primary)]"><i class="fas fa-suitcase mr-2"></i>Packing List</h2>
+            <div id="packing-lists" class="mt-4 space-y-4">
+                <div>
+                    <h3 class="font-bold">You</h3>
+                    <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Clothes</div>
+                </div>
+                <div>
+                    <h3 class="font-bold">Helbert</h3>                 
+                    <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Tools</div>
+                </div>
+                <div>
+                    <h3 class="font-bold">Julian</h3>
+                    <div class="todo-item" onclick="toggleTodo(this)"><i class="fas fa-check todo-check"></i>Toys</div>
+                </div>
+            </div>
+            <select id="packing-person" class="mt-4 p-2 border rounded">
+                <option>You</option>
+                <option>Helbert</option>
+                <option>Julian</option>
+            </select>
+            <input id="new-packing" class="mt-2 p-2 border rounded" placeholder="Add item">
+            <button class="btn mt-2" onclick="addPackingItem()">Add Item</button>
+            <button class="btn mt-2" onclick="exportPackingList()">Export to PDF</button>
+        </div>
+    </section>
+<!-- Enhanced Resources Section -->
+    <section id="resources" class="max-w-6xl mx-auto py-8 px-4">
+        <div class="card fade-in">
+            <h2 class="text-2xl font-bold text-[var(--primary)]"><i class="fas fa-book mr-2"></i>Resources</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                <!-- Legal/Immigration Resources -->
+                <div class="resource-card card">
+                    <i class="fas fa-passport resource-icon"></i>
+                    <h3 class="font-bold text-lg">Spanish Visa Guide</h3>
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Spanish Visa" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Complete guide to obtaining residency visas for families relocating to Spain.</p>
+                    <a href="https://www.spain-visa.com" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <div class="resource-card card">
+                    <i class="fas fa-gavel resource-icon"></i>
+                    <h3 class="font-bold text-lg">NIE Application</h3>
+                    <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="NIE Application" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Step-by-step guide to getting your Spanish tax identification number.</p>
+                    <a href="https://www.nie-spain.com" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Housing Resources -->
+                <div class="resource-card card">
+                    <i class="fas fa-home resource-icon"></i>
+                    <h3 class="font-bold text-lg">Valencia Rentals</h3>
+                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Valencia Rentals" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Best websites to find long-term rentals in Valencia neighborhoods.</p>
+                    <a href="https://www.idealista.com" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Education Resources -->
+                <div class="resource-card card">
+                    <i class="fas fa-school resource-icon"></i>
+                    <h3 class="font-bold text-lg">International Schools</h3>
+                    <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="International Schools" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Comparison of international schools in Valencia for expat families.</p>
+                    <a href="https://www.international-schools-database.com" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Healthcare Resources -->
+                <div class="resource-card card">
+                    <i class="fas fa-hospital resource-icon"></i>
+                    <h3 class="font-bold text-lg">Spanish Healthcare</h3>
+                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Spanish Healthcare" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">How to access Spain's excellent public healthcare system.</p>
+                    <a href="https://www.spain-healthcare.com" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Cultural Integration -->
+                <div class="resource-card card">
+                    <i class="fas fa-hands-helping resource-icon"></i>
+                    <h3 class="font-bold text-lg">Expat Communities</h3>
+                    <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Expat Communities" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Connect with other expat families in Valencia through these groups.</p>
+                    <a href="https://www.internations.org" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Language Learning -->
+                <div class="resource-card card">
+                    <i class="fas fa-language resource-icon"></i>
+                    <h3 class="font-bold text-lg">Spanish Courses</h3>
+                    <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Spanish Courses" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Best Spanish language schools in Valencia for families.</p>
+                    <a href="https://www.escuelamontessori.com" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Local Services -->
+                <div class="resource-card card">
+                    <i class="fas fa-utensils resource-icon"></i>
+                    <h3 class="font-bold text-lg">Local Markets</h3>
+                    <img src="https://images.unsplash.com/photo-1571914001153-dcf90d10ed1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Local Markets" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Guide to Valencia's best markets for fresh produce and local goods.</p>
+                    <a href="https://www.mercadocentralvalencia.es" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Transportation -->
+                <div class="resource-card card">
+                    <i class="fas fa-bus resource-icon"></i>
+                    <h3 class="font-bold text-lg">Public Transport</h3>
+                    <img src="https://images.unsplash.com/photo-1508974576580-36a2f92ad3bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Public Transport" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Complete guide to Valencia's efficient public transportation system.</p>
+                    <a href="https://www.emtvalencia.es" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Family Activities -->
+                <div class="resource-card card">
+                    <i class="fas fa-child resource-icon"></i>
+                    <h3 class="font-bold text-lg">Kids Activities</h3>
+                    <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Kids Activities" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Best family-friendly activities and attractions in Valencia.</p>
+                    <a href="https://www.visitvalencia.com" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Banking -->
+                <div class="resource-card card">
+                    <i class="fas fa-piggy-bank resource-icon"></i>
+                    <h3 class="font-bold text-lg">Spanish Banking</h3>
+                    <img src="https://images.unsplash.com/photo-1550565118-3a14e8d0386f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Spanish Banking" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">How to open a bank account in Spain as a foreigner.</p>
+                    <a href="https://www.bbva.es" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Taxes -->
+                <div class="resource-card card">
+                    <i class="fas fa-file-invoice-dollar resource-icon"></i>
+                    <h3 class="font-bold text-lg">Tax Information</h3>
+                    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Tax Information" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Guide to Spanish taxes for expats and non-residents.</p>
+                    <a href="https://www.agenciatributaria.es" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Utilities -->
+                <div class="resource-card card">
+                    <i class="fas fa-lightbulb resource-icon"></i>
+                    <h3 class="font-bold text-lg">Utility Providers</h3>
+                    <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Utility Providers" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">How to set up electricity, water, and internet in Valencia.</p>
+                    <a href="https://www.iberdrola.es" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Shopping -->
+                <div class="resource-card card">
+                    <i class="fas fa-shopping-cart resource-icon"></i>
+                    <h3 class="font-bold text-lg">Grocery Shopping</h3>
+                    <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Grocery Shopping" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Where to find international food products in Valencia.</p>
+                    <a href="https://www.mercadona.es" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Emergency -->
+                <div class="resource-card card">
+                    <i class="fas fa-ambulance resource-icon"></i>
+                    <h3 class="font-bold text-lg">Emergency Numbers</h3>
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Emergency Numbers" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Important emergency contacts and medical services in Valencia.</p>
+                    <a href="https://www.san.gva.es" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Local Events -->
+                <div class="resource-card card">
+                    <i class="fas fa-calendar-alt resource-icon"></i>
+                    <h3 class="font-bold text-lg">Local Events</h3>
+                    <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Local Events" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Calendar of festivals and events happening in Valencia.</p>
+                    <a href="https://www.visitvalencia.com/events-valencia" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Pet Relocation -->
+                <div class="resource-card card">
+                    <i class="fas fa-paw resource-icon"></i>
+                    <h3 class="font-bold text-lg">Pet Relocation</h3>
+                    <img src="https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pet Relocation" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">How to bring your pets to Spain - requirements and process.</p>
+                    <a href="https://www.pettravel.com" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Driving -->
+                <div class="resource-card card">
+                    <i class="fas fa-car resource-icon"></i>
+                    <h3 class="font-bold text-lg">Driving in Spain</h3>
+                    <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Driving in Spain" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Guide to driving rules, licenses, and car import regulations.</p>
+                    <a href="https://www.dgt.es" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                
+                <!-- Learning Valencian -->
+                <div class="resource-card card">
+                    <i class="fas fa-comments resource-icon"></i>
+                    <h3 class="font-bold text-lg">Valencian Language</h3>
+                    <img src="https://images.unsplash.com/photo-1546412414-e1885259563a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Valencian Language" class="w-full h-32 object-cover rounded-lg mt-2">
+                    <p class="mt-2">Resources for learning Valencian, the local co-official language.</p>
+                    <a href="https://www.avl.gva.es" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">Visit Site <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modals -->
+    <div id="rental-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('rental-modal')">&times;</span>
+            <div id="rental-modal-content"></div>
+        </div>
+    </div>
+
+    <div id="school-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('school-modal')">&times;</span>
+            <div id="school-modal-content"></div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-white py-6 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p>&copy; 2025 Our Valencia Journey. All rights reserved.</p>
+            <p class="mt-2">Made with <i class="fas fa-heart text-[var(--secondary)]"></i> for our family adventure.</p>
+        </div>
+    </footer>
+    <script>
+		 // Add this script to make the logo clickable to scroll to top
+  document.getElementById('animated-logo').addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+// Timeline Functions
+let currentPhase = null;
+let timelineTasks = [];
+
+// Initialize timeline progress
+function initializeTimeline() {
+    updateTimelineProgress();
+    loadTimelineTasks();
+    updateTimelineStats();
+}
+
+// Update timeline progress bar
+function updateTimelineProgress() {
+    const startDate = new Date('2025-05-01');
+    const endDate = new Date('2026-07-01');
+    const currentDate = new Date('2025-03-25'); // Using system prompt date
+    
+    // Update current date display
+    document.getElementById('timeline-current-date').textContent = 
+        `Today: ${currentDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
+    
+    if (currentDate < startDate) {
+        document.getElementById('timeline-progress').style.width = '0%';
+        return;
+    }
+    if (currentDate >= endDate) {
+        document.getElementById('timeline-progress').style.width = '100%';
+        return;
+    }
+
+    const totalDuration = endDate - startDate;
+    const elapsedDuration = currentDate - startDate;
+    const progressPercentage = (elapsedDuration / totalDuration) * 100;
+
+    document.getElementById('timeline-progress').style.width = `${Math.min(progressPercentage, 100)}%`;
+}
+
+// Change timeline view
+function changeTimelineView(view) {
+    const itemsContainer = document.getElementById('timeline-items');
+    
+    switch(view) {
+        case 'roadmap':
+            itemsContainer.className = 'space-y-8 pl-12';
+            break;
+        case 'phases':
+            itemsContainer.className = 'grid grid-cols-1 md:grid-cols-2 gap-6 pl-12';
+            break;
+        case 'milestones':
+            itemsContainer.className = 'space-y-12 pl-12';
+            break;
+        case 'checklist':
+            itemsContainer.className = 'space-y-4 pl-12';
+            break;
+    }
+}
+
+// Toggle phase details
+function togglePhaseDetails(phase) {
+    const phaseElement = document.querySelector(`.timeline-phase[data-phase="${phase}"]`);
+    phaseElement.classList.toggle('active');
+}
+
+// Add new task to timeline
+function addTimelineTask(phase) {
+    currentPhase = phase;
+    document.getElementById('timeline-modal-title').textContent = `Add Task to Phase ${phase}`;
+    document.getElementById('timeline-modal').style.display = 'flex';
+}
+
+// Save timeline task
+function saveTimelineTask() {
+    const name = document.getElementById('task-name').value;
+    const date = document.getElementById('task-date').value;
+    const category = document.getElementById('task-category').value;
+    const notes = document.getElementById('task-notes').value;
+    
+    if (name && date) {
+        const newTask = {
+            id: Date.now(),
+            phase: currentPhase,
+            name: name,
+            date: date,
+            category: category,
+            notes: notes,
+            completed: false
+        };
+        
+        timelineTasks.push(newTask);
+        renderTimelineTask(newTask);
+        saveTimelineTasks();
+        updateTimelineStats();
+        
+        // Clear form
+        document.getElementById('task-name').value = '';
+        document.getElementById('task-date').value = '';
+        document.getElementById('task-notes').value = '';
+        
+        closeModal('timeline-modal');
+    }
+}
+
+// Render timeline task
+function renderTimelineTask(task) {
+    const phaseDetails = document.querySelector(`.timeline-phase[data-phase="${task.phase}"] .timeline-phase-details`);
+    const taskContainer = phaseDetails.querySelector('.grid') || phaseDetails.querySelector('.timeline-phase-details > div');
+    
+    const categoryColors = {
+        visa: 'bg-blue-100 text-blue-800',
+        finance: 'bg-purple-100 text-purple-800',
+        housing: 'bg-indigo-100 text-indigo-800',
+        education: 'bg-green-100 text-green-800',
+        health: 'bg-red-100 text-red-800',
+        travel: 'bg-teal-100 text-teal-800',
+        other: 'bg-gray-100 text-gray-800'
+    };
+    
+    const taskElement = document.createElement('div');
+    taskElement.className = 'timeline-task card p-4 flex items-start';
+    taskElement.dataset.id = task.id;
+    taskElement.dataset.completed = task.completed;
+    taskElement.innerHTML = `
+        <div class="mr-3">
+            <div class="w-6 h-6 rounded-full ${task.completed ? 'bg-[var(--secondary)] text-white flex items-center justify-center' : 'border-2 border-[var(--primary)] flex items-center justify-center'}">
+                ${task.completed ? '<i class="fas fa-check text-xs"></i>' : ''}
+            </div>
+        </div>
+        <div>
+            <h4 class="font-bold">${task.name}</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">${task.notes || 'No additional notes'}</p>
+            <div class="flex flex-wrap gap-2 mt-2">
+                <span class="text-xs ${categoryColors[task.category]} px-2 py-1 rounded-full">
+                    ${task.category.charAt(0).toUpperCase() + task.category.slice(1)}
+                </span>
+                ${task.completed ? 
+                    '<span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Completed</span>' : 
+                    '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">Pending</span>'}
+            </div>
+        </div>
+    `;
+    
+    taskElement.addEventListener('click', function() {
+        toggleTaskCompletion(this);
+    });
+    
+    if (taskContainer) {
+        taskContainer.appendChild(taskElement);
+    }
+}
+
+// Toggle task completion
+function toggleTaskCompletion(taskElement) {
+    const taskId = parseInt(taskElement.dataset.id);
+    const task = timelineTasks.find(t => t.id === taskId);
+    
+    if (task) {
+        task.completed = !task.completed;
+        taskElement.dataset.completed = task.completed;
+        
+        const checkDiv = taskElement.querySelector('.mr-3 div');
+        if (task.completed) {
+            checkDiv.className = 'w-6 h-6 rounded-full bg-[var(--secondary)] text-white flex items-center justify-center';
+            checkDiv.innerHTML = '<i class="fas fa-check text-xs"></i>';
+            
+            // Update status badge
+            const statusBadge = taskElement.querySelector('.flex-wrap span:last-child');
+            if (statusBadge) {
+                statusBadge.className = 'text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full';
+                statusBadge.textContent = 'Completed';
+            }
+        } else {
+            checkDiv.className = 'w-6 h-6 rounded-full border-2 border-[var(--primary)] flex items-center justify-center';
+            checkDiv.innerHTML = '';
+            
+            // Update status badge
+            const statusBadge = taskElement.querySelector('.flex-wrap span:last-child');
+            if (statusBadge) {
+                statusBadge.className = 'text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full';
+                statusBadge.textContent = 'Pending';
+            }
+        }
+        
+        saveTimelineTasks();
+        updateTimelineStats();
+    }
+}
+
+// Share milestone
+function shareMilestone(milestone) {
+    // In a real app, this would use the Web Share API or social media links
+    alert(`Sharing the "${milestone}" milestone with friends and family!`);
+}
+
+// Update timeline statistics
+function updateTimelineStats() {
+    const totalTasks = timelineTasks.length;
+    const completedTasks = timelineTasks.filter(t => t.completed).length;
+    
+    // Update stats cards
+    document.querySelectorAll('.timeline-stats .card:nth-child(2) div:first-child').textContent = totalTasks;
+    document.querySelectorAll('.timeline-stats .card:nth-child(3) div:first-child').textContent = completedTasks;
+}
+
+// Save timeline tasks to localStorage
+function saveTimelineTasks() {
+    localStorage.setItem('timelineTasks', JSON.stringify(timelineTasks));
+}
+
+// Load timeline tasks from localStorage
+function loadTimelineTasks() {
+    const savedTasks = localStorage.getItem('timelineTasks');
+    if (savedTasks) {
+        timelineTasks = JSON.parse(savedTasks);
+        timelineTasks.forEach(task => renderTimelineTask(task));
+    }
+}
+
+// Close modal
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+// Initialize timeline when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initializeTimeline();
+    
+    // Set current date in task form to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('task-date').value = today;
+    
+    // Set first phase as active by default
+    document.querySelector('.timeline-phase').classList.add('active');
+});
+// Call this function on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateTimelineProgress();
+});
+
+// Call this function on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateTimelineProgress();
+});
+// Schools Carousel Initialization
+function initSchoolsCarousel() {
+    new Splide('#schools-carousel', {
+        type: 'loop',
+        perPage: 3,
+        perMove: 1,
+        gap: '1.5rem',
+        breakpoints: {
+            1024: { perPage: 2 },
+            768: { perPage: 1 }
+        },
+        arrows: true,
+        pagination: true
+    }).mount();
+}
+
+// School Filtering
+function filterSchools(type) {
+    const slides = document.querySelectorAll('#schools-carousel .splide__slide');
+    
+    slides.forEach(slide => {
+        const schoolType = slide.querySelector('.rounded-full').textContent.toLowerCase();
+        if (type === 'all' || schoolType.includes(type)) {
+            slide.style.display = 'block';
+        } else {
+            slide.style.display = 'none';
+        }
+    });
+    
+    // Re-init carousel after filtering
+    initSchoolsCarousel();
+}
+
+// School Modal
+function showSchoolModal(id) {
+    // Sample school data - in a real app you'd fetch this from your data source
+    const schoolData = [
+        {
+            name: "British School of Valencia",
+            type: "International",
+            curriculum: "British",
+            languages: "English (main), Spanish",
+            ages: "3-18 years",
+            price: "~€1,000/month",
+            rating: 4.5,
+            reviews: 42,
+            description: "Top-tier British education following the National Curriculum for England. Offers excellent facilities including science labs, sports fields, and arts spaces. Strong focus on both academic and personal development.",
+            pros: ["Native English teachers", "Excellent facilities", "Strong academic results"],
+            cons: ["Higher cost", "Competitive admissions"],
+            contact: "admissions@britishschoolvalencia.com",
+            website: "https://www.britishschoolvalencia.com",
+            image: "https://images.unsplash.com/photo-1588072432836-e10032774350"
+        },
+        // Add data for other schools...
+    ];
+
+    const school = schoolData[id - 1] || schoolData[0];
+    
+    document.getElementById('school-modal-content').innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-2">
+                <h2 class="text-2xl font-bold">${school.name}</h2>
+                <p class="text-sm text-gray-500 mt-1">${school.type} School • ${school.curriculum} Curriculum</p>
+                
+                <div class="flex items-center mt-3">
+                    <div class="text-yellow-400">
+                        ${Array(5).fill().map((_, i) => 
+                            `<i class="fas ${i < Math.floor(school.rating) ? 'fa-star' : 
+                              (i === Math.floor(school.rating) && school.rating % 1 >= 0.5) ? 'fa-star-half-alt' : 'far fa-star'}"></i>`
+                        ).join('')}
+                    </div>
+                    <span class="text-sm text-gray-500 ml-2">${school.rating} (${school.reviews} reviews)</span>
+                </div>
+                
+                <p class="mt-4">${school.description}</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                    <div>
+                        <h3 class="font-bold">Key Information</h3>
+                        <ul class="mt-2 space-y-1">
+                            <li><i class="fas fa-euro-sign mr-2 text-gray-500"></i> ${school.price}</li>
+                            <li><i class="fas fa-language mr-2 text-gray-500"></i> ${school.languages}</li>
+                            <li><i class="fas fa-child mr-2 text-gray-500"></i> Ages ${school.ages}</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold">Highlights</h3>
+                        <ul class="list-disc pl-5 mt-2">
+                            ${school.pros.map(pro => `<li>${pro}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <a href="${school.website}" target="_blank" class="btn inline-block">
+                        Visit School Website <i class="fas fa-external-link-alt ml-1"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div>
+                <img src="${school.image}" alt="${school.name}" class="w-full h-48 md:h-64 object-cover rounded-lg">
+                
+                <div class="mt-4 p-3 bg-[var(--light)] rounded-lg">
+                    <h3 class="font-bold mb-2">Parent Reviews</h3>
+                    
+                    <!-- Review 1 -->
+                    <div class="mb-3 pb-3 border-b">
+                        <div class="flex justify-between">
+                            <span class="font-bold">Sarah M.</span>
+                            <div class="text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm mt-1">"My child has thrived here. The teachers are excellent and truly care."</p>
+                    </div>
+                    
+                    <!-- Review 2 -->
+                    <div class="mb-3 pb-3 border-b">
+                        <div class="flex justify-between">
+                            <span class="font-bold">David K.</span>
+                            <div class="text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm mt-1">"Great school but the fees are quite high compared to local options."</p>
+                    </div>
+                    
+                    <button class="text-sm text-[var(--primary)] hover:text-[var(--secondary)] mt-2">
+                        See all ${school.reviews} reviews <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('school-modal').style.display = 'flex';
+}
+
+// Add New School
+function addNewSchool() {
+    const name = document.getElementById('new-school-name').value;
+    const type = document.getElementById('new-school-type').value;
+    const price = document.getElementById('new-school-price').value;
+    const curriculum = document.getElementById('new-school-curriculum').value;
+    const notes = document.getElementById('new-school-notes').value;
+    const website = document.getElementById('new-school-website').value;
+    const fileInput = document.getElementById('new-school-image');
+    
+    if (name && price) {
+        // In a real app, you would add this to your schools array and re-render
+        console.log('Adding new school:', { name, type, price, curriculum, notes, website });
+        
+        // Clear form
+        document.getElementById('new-school-name').value = '';
+        document.getElementById('new-school-price').value = '';
+        document.getElementById('new-school-curriculum').value = '';
+        document.getElementById('new-school-notes').value = '';
+        document.getElementById('new-school-website').value = '';
+        fileInput.value = '';
+        
+        // Show success message
+        alert('School added successfully!');
+    } else {
+        alert('Please fill in at least the school name and price');
+    }
+}
+
+// Initialize the schools carousel when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initSchoolsCarousel();
+});
+
+// Apartment Tracker Functions
+let apartments = [
+    {
+        id: 1,
+        title: "3-Bed in Malvarrosa",
+        area: "Poblats Marítims",
+        price: 1500,
+        bedrooms: 3,
+        status: "favorites",
+        contact: "malvarrosa@rentals.com",
+        link: "https://www.idealista.com",
+        notes: "Beachfront with balcony. Great natural light. Near schools.",
+        photos: ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c"]
+    },
+    // More apartment objects...
+];
+
+function renderApartments(filteredApartments = apartments) {
+    const grid = document.getElementById('apartments-grid');
+    grid.innerHTML = '';
+    
+    filteredApartments.forEach(apt => {
+        const card = document.createElement('div');
+        card.className = 'card p-0 overflow-hidden';
+        card.innerHTML = `
+            <img src="${apt.photos[0]}" alt="${apt.title}" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <div class="flex justify-between items-start">
+                    <h3 class="font-bold">${apt.title}</h3>
+                    <span class="text-sm px-2 py-1 rounded-full 
+                        ${apt.status === 'favorites' ? 'bg-[var(--secondary)] text-white' : 
+                          apt.status === 'viewed' ? 'bg-blue-100 text-blue-800' :
+                          apt.status === 'contacted' ? 'bg-purple-100 text-purple-800' :
+                          'bg-gray-100 text-gray-800'}">
+                        ${apt.status.charAt(0).toUpperCase() + apt.status.slice(1)}
+                    </span>
+                </div>
+                <div class="flex justify-between mt-2">
+                    <span><i class="fas fa-map-marker-alt text-gray-500 mr-1"></i> ${apt.area}</span>
+                    <span class="font-bold">€${apt.price}</span>
+                </div>
+                <div class="flex justify-between mt-2">
+                    <span><i class="fas fa-bed text-gray-500 mr-1"></i> ${apt.bedrooms} beds</span>
+                    <span><i class="fas fa-phone text-gray-500 mr-1"></i> ${apt.contact.split('@')[0]}</span>
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <button class="text-sm px-3 py-1 border rounded" onclick="showApartmentDetails(${apt.id})">
+                        Details
+                    </button>
+                    <button class="text-sm px-3 py-1 bg-[var(--primary)] text-white rounded" 
+                            onclick="changeApartmentStatus(${apt.id}, 'favorites')">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+function filterApartments() {
+    const area = document.getElementById('area-filter').value;
+    const priceRange = document.getElementById('price-filter').value;
+    const bedrooms = document.getElementById('bedrooms-filter').value;
+    
+    let filtered = apartments;
+    
+    if (area) {
+        filtered = filtered.filter(apt => apt.area === area);
+    }
+    
+    if (priceRange) {
+        const [min, max] = priceRange.split('-').map(Number);
+        if (max) {
+            filtered = filtered.filter(apt => apt.price >= min && apt.price <= max);
+        } else {
+            filtered = filtered.filter(apt => apt.price >= min);
+        }
+    }
+    
+    if (bedrooms) {
+        const beds = Number(bedrooms);
+        if (beds === 3) {
+            filtered = filtered.filter(apt => apt.bedrooms >= 3);
+        } else {
+            filtered = filtered.filter(apt => apt.bedrooms === beds);
+        }
+    }
+    
+    renderApartments(filtered);
+}
+
+function filterByStatus(status) {
+    if (status === 'all') {
+        renderApartments(apartments);
+    } else {
+        const filtered = apartments.filter(apt => apt.status === status);
+        renderApartments(filtered);
+    }
+}
+
+function showApartmentDetails(id) {
+    const apt = apartments.find(a => a.id === id) || {
+        title: "Apartment " + id,
+        price: "€XXXX/month",
+        description: "Details about this apartment would be shown here.",
+        amenities: ["Sample amenity 1", "Sample amenity 2"],
+        contact: "contact@example.com",
+        link: "#",
+        notes: "No additional notes",
+        photos: ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c"]
+    };
+    
+    document.getElementById('rental-modal-content').innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <img src="${apt.photos[0]}" alt="${apt.title}" class="w-full h-64 object-cover rounded-lg">
+            </div>
+            <div>
+                <h2 class="text-2xl font-bold">${apt.title}</h2>
+                <p class="text-xl text-[var(--secondary)] mt-2">€${apt.price}/month</p>
+                <p class="mt-4">${apt.description || 'No description available'}</p>
+                
+                <h3 class="font-bold mt-4">Notes:</h3>
+                <p>${apt.notes}</p>
+                
+                <div class="mt-6">
+                    <p><strong>Contact:</strong> ${apt.contact}</p>
+                    <a href="${apt.link}" target="_blank" class="text-[var(--primary)] hover:text-[var(--secondary)] mt-2 inline-block">
+                        View Listing <i class="fas fa-external-link-alt ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    `;
+    document.getElementById('rental-modal').style.display = 'flex';
+}
+
+function changeApartmentStatus(id, status) {
+    const aptIndex = apartments.findIndex(a => a.id === id);
+    if (aptIndex !== -1) {
+        apartments[aptIndex].status = status;
+        renderApartments();
+    }
+}
+
+function addNewApartment() {
+    const name = document.getElementById('new-apt-name').value;
+    const area = document.getElementById('new-apt-area').value;
+    const price = parseFloat(document.getElementById('new-apt-price').value);
+    const bedrooms = parseInt(document.getElementById('new-apt-bedrooms').value);
+    const contact = document.getElementById('new-apt-contact').value;
+    const link = document.getElementById('new-apt-link').value;
+    const notes = document.getElementById('new-apt-notes').value;
+    const fileInput = document.getElementById('new-apt-photos');
+    
+    if (name && area && price && bedrooms) {
+        const newApt = {
+            id: apartments.length + 1,
+            title: name,
+            area: area,
+            price: price,
+            bedrooms: bedrooms,
+            status: "new",
+            contact: contact || "No contact",
+            link: link || "#",
+            notes: notes || "No notes",
+            photos: ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c"] // Default image
+        };
+        
+        if (fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                newApt.photos = [e.target.result];
+                apartments.push(newApt);
+                renderApartments();
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            apartments.push(newApt);
+            renderApartments();
+        }
+        
+        // Clear form
+        document.getElementById('new-apt-name').value = '';
+        document.getElementById('new-apt-area').value = '';
+        document.getElementById('new-apt-price').value = '';
+        document.getElementById('new-apt-bedrooms').value = '';
+        document.getElementById('new-apt-contact').value = '';
+        document.getElementById('new-apt-link').value = '';
+        document.getElementById('new-apt-notes').value = '';
+        fileInput.value = '';
+    } else {
+        alert('Please fill in at least name, area, price and bedrooms');
+    }
+}
+
+// Enhanced Weather Functions
+function fetchWeather() {
+    fetch('https://api.openweathermap.org/data/2.5/weather?q=Valencia,ES&appid=ee6c435a2eaea8e6f4e7ebfa1f2e2f3e&units=metric')
+        .then(response => response.json())
+        .then(data => {
+            // Current weather
+            document.getElementById('current-temp').textContent = Math.round(data.main.temp);
+            document.getElementById('current-desc').textContent = data.weather[0].description;
+            document.getElementById('current-wind').textContent = (data.wind.speed * 3.6).toFixed(1);
+            document.getElementById('current-humidity').textContent = data.main.humidity;
+            
+            // Weather icon
+            const icon = getWeatherIcon(data.weather[0].id, data.weather[0].icon);
+            document.getElementById('current-weather-icon').innerHTML = `<i class="fas ${icon}"></i>`;
+            
+            // Suggested attire
+            updateAttireRecommendation(data.main.temp, data.weather[0].id, data.wind.speed);
+            
+            // Date
+            const date = new Date();
+            document.getElementById('current-date').textContent = date.toLocaleDateString('en-US', { 
+                weekday: 'long', month: 'long', day: 'numeric' 
+            });
+            
+            // Forecast (mock data - in a real app you'd use the forecast API)
+            renderForecast();
+        })
+        .catch(error => {
+            console.error('Weather fetch error:', error);
+            document.getElementById('current-temp').textContent = '24';
+            document.getElementById('current-desc').textContent = 'Partly Cloudy';
+            document.getElementById('current-weather-icon').innerHTML = '<i class="fas fa-cloud-sun"></i>';
+        });
+}
+
+function getWeatherIcon(weatherId, iconCode) {
+    // Day/night detection
+    const isDay = iconCode.includes('d');
+    
+    if (weatherId >= 200 && weatherId < 300) {
+        return 'fa-bolt';
+    } else if (weatherId >= 300 && weatherId < 400) {
+        return 'fa-cloud-rain';
+    } else if (weatherId >= 500 && weatherId < 600) {
+        return isDay ? 'fa-cloud-sun-rain' : 'fa-cloud-moon-rain';
+    } else if (weatherId >= 600 && weatherId < 700) {
+        return 'fa-snowflake';
+    } else if (weatherId >= 700 && weatherId < 800) {
+        return 'fa-smog';
+    } else if (weatherId === 800) {
+        return isDay ? 'fa-sun' : 'fa-moon';
+    } else if (weatherId > 800) {
+        return isDay ? 'fa-cloud-sun' : 'fa-cloud-moon';
+    }
+    return 'fa-cloud';
+}
+
+function updateAttireRecommendation(temp, weatherId, windSpeed) {
+    const attireDiv = document.getElementById('current-attire');
+    let attireHTML = '<h4 class="font-bold text-sm mb-1">Suggested Attire</h4><div class="flex gap-2">';
+    
+    // Temperature-based recommendations
+    if (temp > 25) {
+        attireHTML += `
+            <div class="text-center">
+                <i class="fas fa-tshirt text-2xl"></i>
+                <p class="text-xs">Light clothes</p>
+            </div>
+            <div class="text-center">
+                <i class="fas fa-sunglasses text-2xl"></i>
+                <p class="text-xs">Sunglasses</p>
+            </div>`;
+    } else if (temp > 15) {
+        attireHTML += `
+            <div class="text-center">
+                <i class="fas fa-tshirt text-2xl"></i>
+                <p class="text-xs">Light layers</p>
+            </div>`;
+    } else {
+        attireHTML += `
+            <div class="text-center">
+                <i class="fas fa-sweater text-2xl"></i>
+                <p class="text-xs">Warm layers</p>
+            </div>`;
+    }
+    
+    // Weather condition recommendations
+    if (weatherId >= 500 && weatherId < 600) {
+        attireHTML += `
+            <div class="text-center">
+                <i class="fas fa-umbrella text-2xl"></i>
+                <p class="text-xs">Umbrella</p>
+            </div>`;
+    }
+    
+    if (weatherId === 800) {
+        attireHTML += `
+            <div class="text-center">
+                <i class="fas fa-sun text-2xl"></i>
+                <p class="text-xs">Sunscreen</p>
+            </div>`;
+    }
+    
+    // Wind recommendation
+    if (windSpeed > 5) {
+        attireHTML += `
+            <div class="text-center">
+                <i class="fas fa-wind text-2xl"></i>
+                <p class="text-xs">Windbreaker</p>
+            </div>`;
+    }
+    
+    attireHTML += '</div>';
+    attireDiv.innerHTML = attireHTML;
+}
+
+function renderForecast() {
+    const forecastContainer = document.getElementById('forecast-container');
+    forecastContainer.innerHTML = '';
+    
+    // Mock forecast data - in a real app you'd use the API
+    const forecastData = [
+        { day: 'Mon', temp: 24, icon: 'fa-sun', rain: 0 },
+        { day: 'Tue', temp: 22, icon: 'fa-cloud-sun', rain: 20 },
+        { day: 'Wed', temp: 20, icon: 'fa-cloud-rain', rain: 80 },
+        { day: 'Thu', temp: 19, icon: 'fa-cloud', rain: 30 },
+        { day: 'Fri', temp: 23, icon: 'fa-sun', rain: 0 }
+    ];
+    
+    forecastData.forEach(day => {
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'text-center p-2 bg-[var(--light)] rounded-lg';
+        dayDiv.innerHTML = `
+            <p class="font-bold">${day.day}</p>
+            <i class="fas ${day.icon} text-2xl my-2 ${day.icon.includes('rain') ? 'text-blue-400' : 
+              day.icon.includes('cloud') ? 'text-gray-400' : 'text-[var(--secondary)]'}"></i>
+            <p class="font-bold">${day.temp}°</p>
+            ${day.rain > 0 ? `<p class="text-xs text-blue-500">${day.rain}%</p>` : '<p class="text-xs opacity-0">0%</p>'}
+        `;
+        forecastContainer.appendChild(dayDiv);
+    });
+}
+
+// Enhanced Budget Tracker Functions
+let budgetChart;
+
+function updateBudgetRecommendations() {
+    const familySize = parseInt(document.getElementById('family-size').value);
+    const totalBudget = 6000 + (familySize * 500); // Adjust budget based on family size
+    
+    document.getElementById('total-budget').textContent = `€${totalBudget}`;
+    
+    // Update max recommendations for each category
+    document.querySelectorAll('.budget-item').forEach(input => {
+        const maxPercent = parseFloat(input.getAttribute('data-max-percent'));
+        const maxAmount = (totalBudget * maxPercent / 100).toFixed(0);
+        input.setAttribute('data-max-amount', maxAmount);
+        input.setAttribute('placeholder', `Max: €${maxAmount}`);
+    });
+    
+    updateBudget();
+}
+
+function updateBudget() {
+    const items = Array.from(document.getElementsByClassName('budget-item')).map(item => ({
+        label: item.getAttribute('data-label'),
+        value: parseFloat(item.value) || 0,
+        maxAmount: parseFloat(item.getAttribute('data-max-amount')) || 0,
+        icon: item.getAttribute('data-icon')
+    }));
+    
+    const addIncome = parseFloat(document.getElementById('addIncome').value) || 0;
+    const familySize = parseInt(document.getElementById('family-size').value);
+    const totalBudget = 6000 + (familySize * 500) + addIncome;
+    const totalExpenses = items.reduce((sum, item) => sum + item.value, 0);
+    const remaining = totalBudget - totalExpenses;
+    
+    // Update summary
+    document.getElementById('total-expenses').textContent = `€${totalExpenses.toFixed(0)}`;
+    document.getElementById('remaining').textContent = `€${remaining.toFixed(0)}`;
+    
+    // Update chart
+    if (!budgetChart) {
+        initializeBudgetChart(items.map(item => item.label), items.map(item => item.value));
+    } else {
+        budgetChart.data.labels = items.map(item => item.label);
+        budgetChart.data.datasets[0].data = items.map(item => item.value);
+        budgetChart.update();
+    }
+    
+    // Generate warnings
+    const warningsContainer = document.getElementById('budget-warnings');
+    warningsContainer.innerHTML = '';
+    
+    items.forEach(item => {
+        if (item.value > item.maxAmount) {
+            const warning = document.createElement('div');
+            warning.className = 'flex items-center p-2 bg-red-100 text-red-800 rounded text-sm';
+            warning.innerHTML = `
+                <i class="fas fa-exclamation-triangle mr-2"></i>
+                <span>${item.label} exceeds recommended amount (€${item.value} > €${item.maxAmount})</span>
+            `;
+            warningsContainer.appendChild(warning);
+        }
+    });
+    
+    if (remaining < 0) {
+        const warning = document.createElement('div');
+        warning.className = 'flex items-center p-2 bg-red-100 text-red-800 rounded text-sm mt-2';
+        warning.innerHTML = `
+            <i class="fas fa-exclamation-triangle mr-2"></i>
+            <span>You're over budget by €${Math.abs(remaining).toFixed(0)}</span>
+        `;
+        warningsContainer.appendChild(warning);
+    }
+}
+
+function initializeBudgetChart(labels, data) {
+    const ctx = document.getElementById('budgetChart').getContext('2d');
+    budgetChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: [
+                    '#4A6FA5', '#F18F01', '#48A9A6', '#2B2D42', 
+                    '#6D6875', '#B5838D', '#E5989B', '#FFCDB2'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { position: 'right' }
+            },
+            cutout: '65%'
+        }
+    });
+}
+
+function addBudgetItem() {
+    const label = document.getElementById('newItemLabel').value.trim();
+    const icon = document.getElementById('newItemIcon').value;
+    const maxPercent = document.getElementById('newItemMaxPercent').value;
+    
+    if (label && maxPercent) {
+        const inputsDiv = document.getElementById('budget-inputs');
+        const newInput = document.createElement('label');
+        newInput.className = 'block relative';
+        newInput.innerHTML = `
+            <div class="flex items-center">
+                <i class="fas fa-${icon} mr-2 text-[var(--primary)]"></i>
+                <span>${label}:</span>
+            </div>
+            <input type="number" data-label="${label}" data-icon="${icon}" data-max-percent="${maxPercent}" 
+                   value="0" class="budget-item border p-2 rounded w-full mt-1 pl-8">
+            <div class="absolute left-2 bottom-2 text-gray-400">€</div>
+        `;
+        
+        const addIncomeLabel = inputsDiv.querySelector('label[for="addIncome"]');
+        inputsDiv.insertBefore(newInput, addIncomeLabel);
+        
+        // Clear form
+        document.getElementById('newItemLabel').value = '';
+        document.getElementById('newItemMaxPercent').value = '';
+        
+        // Update budget with new item
+        updateBudgetRecommendations();
+    }
+}
+
+// Enhanced Calendar Functions
+function filterCalendarEvents(type) {
+    // In a real implementation, you would filter the FullCalendar events
+    console.log(`Filtering calendar events by: ${type}`);
+}
+
+function addCalendarEvent() {
+    const title = document.getElementById('new-event-title').value;
+    const type = document.getElementById('new-event-type').value;
+    const date = document.getElementById('new-event-date').value;
+    const time = document.getElementById('new-event-time').value;
+    const notes = document.getElementById('new-event-notes').value;
+    
+    if (title && date) {
+        // In a real implementation, you would add this to FullCalendar
+        console.log('Adding new calendar event:', { title, type, date, time, notes });
+        
+        // Clear form
+        document.getElementById('new-event-title').value = '';
+        document.getElementById('new-event-date').value = '';
+        document.getElementById('new-event-time').value = '';
+        document.getElementById('new-event-notes').value = '';
+    }
+}
+
+// Initialize FullCalendar
+function initializeCalendar() {
+    const calendarEl = document.getElementById('calendar-container');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        initialDate: '2025-07-01',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        editable: true,
+        events: JSON.parse(localStorage.getItem('calendarEvents')) || [
+            { title: 'Research NLV Requirements', start: '2025-07-01', color: 'var(--primary)' },
+            { title: 'Gather Income Proof', start: '2025-09-01', color: 'var(--accent)' },
+            { title: 'Secure Health Insurance', start: '2025-10-01', color: 'var(--primary)' },
+            { title: 'Open BBVA Account', start: '2025-11-01', color: 'var(--accent)' },
+            { title: 'Book Consulate Appointment', start: '2025-12-01', color: 'var(--primary)' },
+            { title: 'Submit NLV Application', start: '2026-01-01', color: 'var(--accent)' },
+            { title: 'Arrange Shipping/Furniture', start: '2026-03-01', color: 'var(--primary)' },
+            { title: 'Research Spanish Lessons', start: '2026-04-01', color: 'var(--accent)' },
+            { title: 'Notify Landlord', start: '2026-05-01', color: 'var(--primary)' },
+            { title: 'Cancel Utilities', start: '2026-06-01', color: 'var(--accent)' },
+            { title: 'Pack Belongings', start: '2026-06-15', color: 'var(--primary)' },
+            { title: 'Book Flights', start: '2026-06-20', color: 'var(--accent)' },
+            { title: 'Move to Valencia', start: '2026-07-01', color: 'var(--secondary)' },
+            { title: 'Register for Padrón', start: '2026-07-05', color: 'var(--primary)' },
+            { title: 'Apply for NIE', start: '2026-07-10', color: 'var(--accent)' }
+        ],
+        eventClick: function(info) {
+            alert('Task: ' + info.event.title + '\nDue: ' + info.event.start.toLocaleDateString());
+        },
+        eventChange: function(info) {
+            const events = calendar.getEvents().map(event => ({
+                title: event.title,
+                start: event.start,
+                color: event.backgroundColor
+            }));
+            localStorage.setItem('calendarEvents', JSON.stringify(events));
+        }
+    });
+    calendar.render();
+}
+
+// Heatmap Functions
+let map;
+let heatmapLayer;
+
+function initializeMap() {
+    map = L.map('map').setView([39.4699, -0.3763], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 18 
+    }).addTo(map);
+    
+    // Initialize heatmap layer (empty for now)
+    heatmapLayer = L.layerGroup().addTo(map);
+}
+
+function updateHeatmap(layer) {
+    // Clear existing heatmap
+    heatmapLayer.clearLayers();
+    
+    // In a real implementation, you would add different heatmap data based on the layer
+    console.log(`Updating heatmap to show: ${layer}`);
+    
+    // Example: Add some markers for demonstration
+    if (layer === 'rentals') {
+        const rentalData = [
+            { lat: 39.475, lng: -0.35, price: 1500 },
+            { lat: 39.47, lng: -0.34, price: 1300 },
+            { lat: 39.48, lng: -0.33, price: 1700 }
+        ];
+        
+        rentalData.forEach(rental => {
+            const color = rental.price < 1400 ? 'green' : rental.price < 1600 ? 'orange' : 'red';
+            L.circleMarker([rental.lat, rental.lng], {
+                radius: 10,
+                fillColor: color,
+                color: '#000',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            }).addTo(heatmapLayer).bindPopup(`€${rental.price}/month`);
+        });
+    } else if (layer === 'schools') {
+        const schoolData = [
+            { lat: 39.466, lng: -0.375, rating: 4.5 },
+            { lat: 39.47, lng: -0.38, rating: 4.0 },
+            { lat: 39.455, lng: -0.35, rating: 4.8 }
+        ];
+        
+        schoolData.forEach(school => {
+            const color = school.rating < 4.0 ? 'red' : school.rating < 4.5 ? 'orange' : 'green';
+            L.circleMarker([school.lat, school.lng], {
+                radius: 10,
+                fillColor: color,
+                color: '#000',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            }).addTo(heatmapLayer).bindPopup(`Rating: ${school.rating}/5`);
+        });
+    }
+}
+
+// Bucket List Functions
+function toggleBucketItem(button) {
+    const item = button.closest('.bucket-item');
+    const isCompleted = item.getAttribute('data-completed') === 'true';
+    
+    item.setAttribute('data-completed', !isCompleted);
+    button.innerHTML = isCompleted ? 
+        '<i class="far fa-check-circle"></i>' : 
+        '<i class="fas fa-check-circle text-[var(--secondary)]"></i>';
+    
+    // Update status text
+    const statusSpan = item.querySelector('.rounded-full');
+    if (statusSpan) {
+        statusSpan.textContent = isCompleted ? 'Pending' : 'Completed';
+        statusSpan.className = isCompleted ? 
+            'text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full' : 
+            'text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full';
+    }
+    
+    updateBucketProgress();
+    saveBucketList();
+}
+
+function updateBucketProgress() {
+    const items = document.querySelectorAll('.bucket-item');
+    const completed = document.querySelectorAll('.bucket-item[data-completed="true"]');
+    const percent = (completed.length / items.length) * 100;
+    
+    document.getElementById('bucket-progress-bar').style.width = `${percent}%`;
+    document.getElementById('bucket-progress-text').textContent = `${completed.length}/${items.length}`;
+}
+
+function addBucketItem() {
+    const title = document.getElementById('new-bucket-title').value;
+    const desc = document.getElementById('new-bucket-desc').value;
+    const location = document.getElementById('new-bucket-location').value;
+    const fileInput = document.getElementById('new-bucket-image');
+    
+    if (title) {
+        const itemsContainer = document.getElementById('bucket-items');
+        const newItem = document.createElement('div');
+        newItem.className = 'bucket-item card p-0 overflow-hidden';
+        newItem.setAttribute('data-completed', 'false');
+        
+        let imageUrl = 'https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80';
+        
+        if (fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                newItem.querySelector('img').src = e.target.result;
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+        
+        newItem.innerHTML = `
+            <img src="${imageUrl}" alt="${title}" class="w-full h-40 object-cover">
+            <div class="p-4">
+                <div class="flex justify-between items-start">
+                    <h3 class="font-bold">${title}</h3>
+                    <button class="text-gray-300" onclick="toggleBucketItem(this)">
+                        <i class="far fa-check-circle"></i>
+                    </button>
+                </div>
+                <p class="text-sm mt-2">${desc || 'No description'}</p>
+                <div class="flex justify-between items-center mt-3">
+                    <span class="text-xs text-gray-500">${location || 'Valencia'}</span>
+                    <span class="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">Pending</span>
+                </div>
+            </div>
+        `;
+        
+        itemsContainer.appendChild(newItem);
+        
+        // Clear form
+        document.getElementById('new-bucket-title').value = '';
+        document.getElementById('new-bucket-desc').value = '';
+        document.getElementById('new-bucket-location').value = '';
+        document.getElementById('new-bucket-image').value = '';
+        
+        updateBucketProgress();
+        saveBucketList();
+    }
+}
+
+function saveBucketList() {
+    const bucketItems = Array.from(document.querySelectorAll('#bucket-items .bucket-item')).map(item => ({
+        title: item.querySelector('h3').textContent,
+        desc: item.querySelector('p').textContent,
+        location: item.querySelector('.text-gray-500').textContent,
+        completed: item.getAttribute('data-completed') === 'true',
+        image: item.querySelector('img').src
+    }));
+    localStorage.setItem('bucketList', JSON.stringify(bucketItems));
+}
+
+function loadBucketList() {
+    const savedItems = localStorage.getItem('bucketList');
+    if (savedItems) {
+        const bucketContainer = document.getElementById('bucket-items');
+        bucketContainer.innerHTML = '';
+        
+        JSON.parse(savedItems).forEach(item => {
+            const div = document.createElement('div');
+            div.className = `bucket-item card p-0 overflow-hidden`;
+            div.setAttribute('data-completed', item.completed.toString());
+            div.innerHTML = `
+                <img src="${item.image}" alt="${item.title}" class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold">${item.title}</h3>
+                        <button class="${item.completed ? 'text-[var(--secondary)]' : 'text-gray-300'}" 
+                                onclick="toggleBucketItem(this)">
+                            <i class="${item.completed ? 'fas' : 'far'} fa-check-circle"></i>
+                        </button>
+                    </div>
+                    <p class="text-sm mt-2">${item.desc}</p>
+                    <div class="flex justify-between items-center mt-3">
+                        <span class="text-xs text-gray-500">${item.location}</span>
+                        <span class="text-xs px-2 py-1 ${item.completed ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'} rounded-full">
+                            ${item.completed ? 'Completed' : 'Pending'}
+                        </span>
+                    </div>
+                </div>
+            `;
+            bucketContainer.appendChild(div);
+        });
+        
+        updateBucketProgress();
+    }
+}
+
+// Adventure Currency Converter
+function initializeCurrencyConverter() {
+    // API Configuration
+    const API_KEY = 'ee6c435a2eaea8e6f4e7ebfa1f2e2f3e'; // Using OpenWeatherMap API key as placeholder
+    const BASE_URL = 'https://api.exchangeratesapi.io/v1/';
+    
+    // Elements
+    const fromCurrency = document.getElementById('from-currency');
+    const toCurrency = document.getElementById('to-currency');
+    const fromAmount = document.getElementById('from-amount');
+    const toAmount = document.getElementById('to-amount');
+    const fromFlag = document.getElementById('from-flag');
+    const toFlag = document.getElementById('to-flag');
+    const fromCurrencyName = document.getElementById('from-currency-name');
+    const toCurrencyName = document.getElementById('to-currency-name');
+    const swapBtn = document.getElementById('swap-currencies');
+    const exchangeRate = document.getElementById('exchange-rate');
+    const rateTrend = document.getElementById('rate-trend');
+    const lastUpdated = document.getElementById('last-updated');
+    const rateStatus = document.getElementById('rate-status');
+    const fromStampValue = document.getElementById('from-stamp-value');
+    const fromStampCurrency = document.getElementById('from-stamp-currency');
+    const toStampValue = document.getElementById('to-stamp-value');
+    const toStampCurrency = document.getElementById('to-stamp-currency');
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    // Currency Data
+    const currencyData = {
+        USD: { flag: '🇺🇸', name: 'US Dollar', color: '#3A5A8F' },
+        EUR: { flag: '🇪🇺', name: 'Euro', color: '#4A6FA5' },
+        GBP: { flag: '🇬🇧', name: 'British Pound', color: '#2B2D42' },
+        JPY: { flag: '🇯🇵', name: 'Japanese Yen', color: '#B5838D' },
+        CAD: { flag: '🇨🇦', name: 'Canadian Dollar', color: '#48A9A6' }
+    };
+    
+    let rates = {};
+    let historicalRates = [];
+    
+    // Initialize
+    updateCurrencyDisplays();
+    fetchExchangeRates();
+    
+    // Event Listeners
+    fromCurrency.addEventListener('change', () => {
+        updateCurrencyDisplays();
+        fetchExchangeRates();
+    });
+    
+    toCurrency.addEventListener('change', () => {
+        updateCurrencyDisplays();
+        updateConversion();
+    });
+    
+    fromAmount.addEventListener('input', () => {
+        updateConversion();
+        animatePassportStamp();
+    });
+    
+    swapBtn.addEventListener('click', () => {
+        const temp = fromCurrency.value;
+        fromCurrency.value = toCurrency.value;
+        toCurrency.value = temp;
+        updateCurrencyDisplays();
+        fetchExchangeRates();
+    });
+    
+    // Functions
+    function updateCurrencyDisplays() {
+        const fromData = currencyData[fromCurrency.value];
+        const toData = currencyData[toCurrency.value];
+        
+        fromFlag.textContent = fromData.flag;
+        toFlag.textContent = toData.flag;
+        fromCurrencyName.textContent = fromData.name;
+        toCurrencyName.textContent = toData.name;
+        fromStampCurrency.textContent = fromCurrency.value;
+        toStampCurrency.textContent = toCurrency.value;
+        
+        // Update stamp colors
+        document.querySelector('.from-currency').style.borderColor = fromData.color;
+        document.querySelector('.to-currency').style.borderColor = toData.color;
+    }
+    
+    function fetchExchangeRates() {
+        rateStatus.innerHTML = '<i class="fas fa-sync-alt fa-spin mr-1"></i> Loading live rates...';
+        
+        // In a real implementation, you would use:
+        // fetch(`${BASE_URL}latest?access_key=${API_KEY}&base=${fromCurrency.value}`)
+        // For this demo, we'll use mock data
+        setTimeout(() => {
+            // Mock response
+            rates = {
+                USD: 1,
+                EUR: 0.85 + (Math.random() * 0.02 - 0.01), // Random small variation
+                GBP: 0.73 + (Math.random() * 0.02 - 0.01),
+                JPY: 110.25 + (Math.random() * 2 - 1),
+                CAD: 1.25 + (Math.random() * 0.02 - 0.01)
+            };
+            
+            updateRateDisplay();
+            updateConversion();
+            updateHistoricalTimeline();
+            
+            rateStatus.innerHTML = '<i class="fas fa-check-circle mr-1"></i> Rates updated';
+            setTimeout(() => {
+                rateStatus.innerHTML = '<i class="fas fa-bolt mr-1"></i> Live rates active';
+            }, 2000);
+        }, 1000);
+    }
+    
+    function updateRateDisplay() {
+        const rate = rates[toCurrency.value];
+        if (rate) {
+            exchangeRate.textContent = `1 ${fromCurrency.value} = ${rate.toFixed(4)} ${toCurrency.value}`;
+            
+            // Simulate trend
+            const trend = Math.random() * 0.4 - 0.2; // Random between -0.2 and +0.2
+            const trendIcon = trend >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+            const trendColor = trend >= 0 ? 'text-green-300' : 'text-red-300';
+            rateTrend.innerHTML = `<i class="fas ${trendIcon} ${trendColor}"></i> ${Math.abs(trend).toFixed(1)}% today`;
+            
+            // Update last updated time
+            const now = new Date();
+            lastUpdated.textContent = `Updated: ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+        }
+    }
+    
+    function updateConversion() {
+        const amount = parseFloat(fromAmount.value) || 0;
+        const rate = rates[toCurrency.value] || 0;
+        const convertedAmount = amount * rate;
+        
+        toAmount.value = convertedAmount.toFixed(2);
+        fromStampValue.textContent = amount.toFixed(0);
+        toStampValue.textContent = convertedAmount.toFixed(0);
+    }
+    
+    function animatePassportStamp() {
+        const plane = document.querySelector('.animated-plane');
+        plane.style.animation = 'none';
+        void plane.offsetWidth; // Trigger reflow
+        plane.style.animation = 'bounce 2s infinite';
+    }
+    
+    function updateHistoricalTimeline() {
+        // Generate mock historical data
+        const baseRate = rates[toCurrency.value] || 0.85;
+        historicalRates = [
+            { date: 'Today', rate: baseRate },
+            { date: '1d', rate: baseRate * (0.998 + Math.random() * 0.004) },
+            { date: '2d', rate: baseRate * (0.996 + Math.random() * 0.004) },
+            { date: '3d', rate: baseRate * (0.997 + Math.random() * 0.006) },
+            { date: '4d', rate: baseRate * (1.002 + Math.random() * 0.004) },
+            { date: '5d', rate: baseRate * (1.001 + Math.random() * 0.002) },
+            { date: '1w', rate: baseRate * (1.003 + Math.random() * 0.004) }
+        ];
+        
+        // Find min/max for scaling
+        const ratesOnly = historicalRates.map(item => item.rate);
+        const minRate = Math.min(...ratesOnly);
+        const maxRate = Math.max(...ratesOnly);
+        const range = maxRate - minRate;
+        
+        // Update timeline items
+        timelineItems.forEach((item, index) => {
+            const rateData = historicalRates[index];
+            if (rateData) {
+                item.setAttribute('data-date', rateData.date);
+                item.setAttribute('data-rate', rateData.rate.toFixed(4));
+                
+                // Calculate percentage for gradient
+                const percentage = ((rateData.rate - minRate) / range) * 100;
+                item.style.setProperty('--rate-percentage', `${percentage}%`);
+            }
+        });
+    }
+}
+
+// Packing List with persistence
+function addPackingItem() {
+    const person = document.getElementById('packing-person').value;
+    const text = document.getElementById('new-packing').value;
+    
+    if (text) {
+        const list = Array.from(document.querySelectorAll('#packing-lists > div'))
+            .find(div => div.querySelector('h3').textContent === person);
+        
+        if (list) {
+            const item = document.createElement('div');
+            item.className = 'todo-item';
+            item.innerHTML = `<i class="fas fa-check todo-check"></i>${text}`;
+            item.onclick = () => toggleTodo(item);
+            list.appendChild(item);
+            document.getElementById('new-packing').value = '';
+            savePackingList();
+        }
+    }
+}
+
+function exportPackingList() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    let y = 10;
+    
+    document.querySelectorAll('#packing-lists > div').forEach(div => {
+        const person = div.querySelector('h3').textContent;
+        doc.text(person, 10, y);
+        y += 10;
+        
+        div.querySelectorAll('.todo-item').forEach(item => {
+            const text = item.textContent.trim();
+            doc.text(`- ${text}`, 20, y);
+            y += 10;
+        });
+        
+        y += 5;
+    });
+    
+    doc.save('packing_list.pdf');
+}
+
+function savePackingList() {
+    const packingLists = Array.from(document.querySelectorAll('#packing-lists > div')).map(div => ({
+        person: div.querySelector('h3').textContent,
+        items: Array.from(div.querySelectorAll('.todo-item')).map(item => ({
+            text: item.textContent.trim(),
+            completed: item.classList.contains('completed')
+        }))
+    }));
+    localStorage.setItem('packingLists', JSON.stringify(packingLists));
+}
+
+function loadPackingList() {
+    const savedLists = localStorage.getItem('packingLists');
+    if (savedLists) {
+        const packingContainer = document.getElementById('packing-lists');
+        packingContainer.innerHTML = '';
+        
+        JSON.parse(savedLists).forEach(list => {
+            const div = document.createElement('div');
+            div.innerHTML = `<h3 class="font-bold">${list.person}</h3>`;
+            
+            list.items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `todo-item ${item.completed ? 'completed' : ''}`;
+                itemDiv.onclick = function() { toggleTodo(this); };
+                itemDiv.innerHTML = `<i class="fas fa-check todo-check"></i>${item.text}`;
+                div.appendChild(itemDiv);
+            });
+            
+            packingContainer.appendChild(div);
+        });
+    }
+}
+
+// To-Do List with persistence
+function toggleTodo(item) {
+    item.classList.toggle('completed');
+    saveTodoList();
+}
+
+function saveTodoList() {
+    const todoItems = Array.from(document.querySelectorAll('#todo .todo-item')).map(item => ({
+        text: item.textContent.trim(),
+        completed: item.classList.contains('completed')
+    }));
+    localStorage.setItem('todoList', JSON.stringify(todoItems));
+}
+
+function loadTodoList() {
+    const savedItems = localStorage.getItem('todoList');
+    if (savedItems) {
+        const todoContainer = document.querySelector('#todo .mt-4');
+        todoContainer.innerHTML = '';
+        
+        JSON.parse(savedItems).forEach(item => {
+            const div = document.createElement('div');
+            div.className = `todo-item ${item.completed ? 'completed' : ''}`;
+            div.onclick = function() { toggleTodo(this); };
+            div.innerHTML = `<i class="fas fa-check todo-check"></i>${item.text}`;
+            todoContainer.appendChild(div);
+        });
+    }
+}
+
+// Journal with persistence
+function addJournalEntry() {
+    const text = document.getElementById('new-entry').value;
+    const fileInput = document.getElementById('entry-media');
+    
+    if (!text.trim()) return;
+    
+    const entries = document.getElementById('journal-entries');
+    const entryDiv = document.createElement('div');
+    entryDiv.className = 'journal-entry bg-[var(--light)] p-4 rounded-lg shadow';
+    const date = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    entryDiv.innerHTML = `
+        <h3 class="font-bold text-lg">${date} - New Entry</h3>
+        <div class="prose mt-2">${marked.parse(text)}</div>
+    `;
+    
+    if (fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const mediaUrl = e.target.result;
+            const isImage = fileInput.files[0].type.startsWith('image');
+            
+            const media = isImage 
+                ? `<img src="${mediaUrl}" class="w-full h-48 object-cover rounded-lg mt-2">`
+                : `<video src="${mediaUrl}" controls class="w-full h-48 rounded-lg mt-2"></video>`;
+            
+            entryDiv.innerHTML += media;
+            entries.prepend(entryDiv);
+            saveJournalEntries();
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    } else {
+        entries.prepend(entryDiv);
+        saveJournalEntries();
+    }
+    
+    document.getElementById('new-entry').value = '';
+    fileInput.value = '';
+}
+
+function saveJournalEntries() {
+    const entries = Array.from(document.querySelectorAll('#journal-entries .journal-entry')).map(entry => ({
+        html: entry.innerHTML,
+        date: entry.querySelector('h3').textContent
+    }));
+    localStorage.setItem('journalEntries', JSON.stringify(entries));
+}
+
+function loadJournalEntries() {
+    const savedEntries = localStorage.getItem('journalEntries');
+    if (savedEntries) {
+        const entriesContainer = document.getElementById('journal-entries');
+        entriesContainer.innerHTML = '';
+        
+        JSON.parse(savedEntries).forEach(entry => {
+            const div = document.createElement('div');
+            div.className = 'journal-entry bg-[var(--light)] p-4 rounded-lg shadow';
+            div.innerHTML = entry.html;
+            entriesContainer.appendChild(div);
+        });
+    } else {
+        // Initial sample entry
+        document.getElementById('entry-1').innerHTML = marked.parse(`
+We've started planning our move to Valencia! Today, we researched schools and rentals. 
+It's exciting to think about Julian playing on the beach after school. 
+        `);
+    }
+}
+
+// Family Map with persistence
+let familyMap;
+const familyIcons = {
+    home: L.divIcon({ html: '<i class="fas fa-home text-[var(--secondary)] text-2xl"></i>', className: '' }),
+    school: L.divIcon({ html: '<i class="fas fa-school text-[var(--primary)] text-2xl"></i>', className: '' }),
+    dream: L.divIcon({ html: '<i class="fas fa-star text-[var(--accent)] text-2xl"></i>', className: '' })
+};
+
+let familyPins = {
+    home: [],
+    school: [],
+    dream: []
+};
+
+function initializeFamilyMap() {
+    familyMap = L.map('family-map-container').setView([39.4699, -0.3763], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 18 
+    }).addTo(familyMap);
+    
+    loadFamilyPins();
+}
+
+function togglePins(type) {
+    familyPins[type].forEach(pin => {
+        if (familyMap.hasLayer(pin.marker)) {
+            familyMap.removeLayer(pin.marker);
+        } else {
+            familyMap.addLayer(pin.marker);
+        }
+    });
+    saveFamilyPins();
+}
+
+function addFamilyPin() {
+    const name = document.getElementById('new-pin-name').value;
+    const lat = parseFloat(document.getElementById('new-pin-lat').value);
+    const lng = parseFloat(document.getElementById('new-pin-lng').value);
+    const type = prompt('Type (home/school/dream):').toLowerCase();
+    
+    if (name && lat && lng && ['home', 'school', 'dream'].includes(type)) {
+        const marker = L.marker([lat, lng], { 
+            icon: familyIcons[type] 
+        }).addTo(familyMap)
+          .bindPopup(`${name} - ${type}`);
+        
+        familyPins[type].push({
+            name: name,
+            latlng: { lat: lat, lng: lng },
+            type: type,
+            marker: marker
+        });
+        
+        document.getElementById('new-pin-name').value = '';
+        document.getElementById('new-pin-lat').value = '';
+        document.getElementById('new-pin-lng').value = '';
+        saveFamilyPins();
+    }
+}
+
+function saveFamilyPins() {
+    const pinsToSave = {};
+    for (const type in familyPins) {
+        pinsToSave[type] = familyPins[type].map(pin => ({
+            name: pin.name,
+            latlng: pin.latlng,
+            type: pin.type,
+            visible: familyMap.hasLayer(pin.marker)
+        }));
+    }
+    localStorage.setItem('familyPins', JSON.stringify(pinsToSave));
+}
+
+function loadFamilyPins() {
+    const savedPins = localStorage.getItem('familyPins');
+    if (savedPins) {
+        const pinsData = JSON.parse(savedPins);
+        for (const type in pinsData) {
+            familyPins[type] = pinsData[type].map(pinData => {
+                const marker = L.marker([pinData.latlng.lat, pinData.latlng.lng], { 
+                    icon: familyIcons[pinData.type] 
+                }).bindPopup(`${pinData.name} - ${pinData.type}`);
+                
+                if (pinData.visible) {
+                    marker.addTo(familyMap);
+                }
+                
+                return {
+                    name: pinData.name,
+                    latlng: pinData.latlng,
+                    type: pinData.type,
+                    marker: marker
+                };
+            });
+        }
+    } else {
+        // Default pins
+        const homePin = {
+            name: 'Home - Cabanyal',
+            latlng: { lat: 39.47, lng: -0.34 },
+            type: 'home',
+            marker: L.marker([39.47, -0.34], { icon: familyIcons.home })
+                .addTo(familyMap)
+                .bindPopup('Home - Cabanyal')
+        };
+        
+        const schoolPin = {
+            name: 'School - British School',
+            latlng: { lat: 39.466, lng: -0.375 },
+            type: 'school',
+            marker: L.marker([39.466, -0.375], { icon: familyIcons.school })
+                .addTo(familyMap)
+                .bindPopup('School - British School')
+        };
+        
+        const dreamPin = {
+            name: 'Dream - City of Arts',
+            latlng: { lat: 39.455, lng: -0.35 },
+            type: 'dream',
+            marker: L.marker([39.455, -0.35], { icon: familyIcons.dream })
+                .addTo(familyMap)
+                .bindPopup('Dream - City of Arts')
+        };
+        
+        familyPins.home.push(homePin);
+        familyPins.school.push(schoolPin);
+        familyPins.dream.push(dreamPin);
+    }
+}
+
+// Theme toggle
+function toggleTheme() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    document.querySelector('.theme-toggle i').classList.toggle('fa-moon');
+    document.querySelector('.theme-toggle i').classList.toggle('fa-sun');
+}
+
+// Mobile menu toggle
+document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+    document.getElementById('mainNav').classList.toggle('show');
+});
+
+// Countdown timer
+const moveDate = new Date('2026-07-01T00:00:00');
+function updateCountdown() {
+    const now = new Date();
+    const distance = moveDate - now;
+    
+    if (distance < 0) {
+        document.getElementById("countdown-bar").innerHTML = "<div class='text-xl font-bold'>We've arrived in Valencia!</div>";
+        return;
+    }
+    
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    document.getElementById("days").textContent = days;
+    document.getElementById("hours").textContent = hours;
+    document.getElementById("minutes").textContent = minutes;
+    document.getElementById("seconds").textContent = seconds;
+}
+
+// Loading screen
+function initializeLoadingScreen() {
+    const MIN_LOAD_TIME = 4000; // Minimum 4 seconds
+    const MAX_LOAD_TIME = 7000; // Maximum 7 seconds
+    const FADE_OUT_DURATION = 1000; // 1 second fade out
+    
+    const loadStartTime = Date.now();
+    
+    window.addEventListener('load', function() {
+        const loadTime = Date.now() - loadStartTime;
+        const remainingTime = Math.max(0, MIN_LOAD_TIME - loadTime);
+        
+        setTimeout(function() {
+            var loader = document.getElementById('loader');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(function() {
+                    loader.style.display = 'none';
+                }, FADE_OUT_DURATION);
+            }
+        }, remainingTime);
+    });
+    
+    // Fallback in case load event never fires
+    setTimeout(function() {
+        var loader = document.getElementById('loader');
+        if (loader && loader.style.display !== 'none') {
+            loader.style.opacity = '0';
+            setTimeout(function() {
+                loader.style.display = 'none';
+            }, FADE_OUT_DURATION);
+        }
+    }, MAX_LOAD_TIME);
+}
+
+// Close modals when clicking outside
+window.addEventListener('click', function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+    }
+});
+
+// Smooth scrolling for navigation
+document.querySelectorAll('nav a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+        document.getElementById('mainNav').classList.remove('show');
+    });
+});
+
+// Responsive adjustments
+function handleResize() {
+    if (window.innerWidth >= 768) {
+        document.getElementById('mainNav').style.display = 'flex';
+    } else {
+        document.getElementById('mainNav').style.display = 'none';
+    }
+}
+
+// Initialize everything when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Set theme from localStorage
+    if (localStorage.getItem('theme') === 'dark') toggleTheme();
+    
+    // Initialize loading screen
+    initializeLoadingScreen();
+    
+    // Initialize countdown timer
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    
+    // Initialize carousels
+    initSchoolsCarousel();
+    
+    // Initialize apartment tracker
+    renderApartments();
+    
+    // Initialize weather
+    fetchWeather();
+    
+    // Initialize budget with family size recommendations
+    updateBudgetRecommendations();
+    
+    // Initialize bucket list progress
+    loadBucketList();
+    
+    // Initialize calendar
+    initializeCalendar();
+    
+    // Initialize maps
+    initializeMap();
+    initializeFamilyMap();
+    
+    // Initialize currency converter
+    initializeCurrencyConverter();
+    
+    // Load saved data
+    loadTodoList();
+    loadPackingList();
+    loadJournalEntries();
+    
+    // Set up event listeners
+    document.querySelectorAll('.budget-item, #addIncome').forEach(input => input.addEventListener('input', updateBudget));
+    window.addEventListener('resize', handleResize);
+    handleResize();
+});
+    </script>
+</body>
+</html>
